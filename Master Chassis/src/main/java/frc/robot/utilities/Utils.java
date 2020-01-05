@@ -14,10 +14,15 @@ public class Utils
         return Math.pow(Math.pow(x, 2) + Math.pow(y, 2), 0.5);
     }
 
-    // convert cartisan joystic coords into angle -PI to PI
+    /**
+     * Convert Cartisan coords into angle from 0 to 2PI
+     * @param x
+     * @param y
+     * @return an angle from 0 to 2PI
+     */
     public static double angle(final double x, final double y) 
     {
-        return Math.atan2(y, x);  // returns -PI to PI
+        return normalizeAngle(Math.atan2(y, x));  // returns 0 to 2PI
     }
 
     /**

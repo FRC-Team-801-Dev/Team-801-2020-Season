@@ -5,6 +5,7 @@ import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.commands.JoystickDriveChassis;
 import frc.robot.components.SwervePod;
+import frc.robot.utilities.Utils;
 
 /**
  * Subsystem to control the entire drive base
@@ -64,10 +65,10 @@ public class Chassis extends Subsystem
             pod.processPod();
         }
 
-        // double x_l = Robot.io.getDriverLeftX(); // Translation x
-        // double y_l = -Robot.io.getDriverLeftY(); // Translation y
+        double x_l = Robot.io.getDriverLeftX(); // Translation x
+        double y_l = -Robot.io.getDriverLeftY(); // Translation y
         double x_r = Robot.io.getDriverRightX(); // Right stick x
-        double y_r = -Robot.io.getDriverRightY(); // Right stick y
+        // double y_r = -Robot.io.getDriverRightY(); // Right stick y
 
         // Dimensions will change! What are the dimensions of the test chassis!
         // Change in Constants.java
@@ -91,17 +92,57 @@ public class Chassis extends Subsystem
         // double length = Constants.ROBOT_LENGTH;
         // double width = Constants.ROBOT_WIDTH;
 
-        // double thetaChassis = Math.atan(length / width); // Gets the angle created from the center of the robot to the top right corner
+        // double thetaChassis = Math.atan(Constants.ROBOT_LENGTH / Constants.ROBOT_WIDTH); // Gets the angle created from the center of the robot to the top right corner
 
+        double magnitude = Utils.magnitude(x_l, y_l) / Math.sqrt(2); // Magnitude of joystick movement
 
-        double magnitude = Math.sqrt( Math.pow(x_r, 2) + Math.pow(y_r, 2) ) / Math.sqrt(2); // Magnitude of joystick movement
-        double angle = Math.atan2(y_r, x_r); // Angle of joystick
+        double angle = Utils.normalizeAngle(Utils.angle(x_l, y_l) - Math.PI / 2); // Angle of joystick
 
-        for (SwervePod pod : pods)
+        double rotationMagnitude = x_r;
+
+        double[] rotationAngles = {
+            (7 * Math.PI) / 4,
+            (5 * Math.PI) / 4,
+            (1 * Math.PI) / 4,
+            (3 * Math.PI) / 4
+        };
+
+        // double[] rotationAngles = {
+        //     2*Math.PI - thetaChassis,
+        //     Math.PI + thetaChassis,
+        //     thetaChassis,
+        //     Math.PI / 2 + thetaChassis
+        // };
+
+        double[] translationVector = {angle, magnitude};
+
+        double[][] rotationVectors = new double[4][2];
+
+        for (int i = 0; i < 4; i++)
         {
-            pod.setDesiredAngle(angle);
-            pod.setDesiredRPM(magnitude);
+            rotationVectors[i] = new double[] {rotationAngles[i], rotationMagnitude};
         }
+
+        double[][] podVectors = new double[4][2];
+
+        for (int i = 0; i < 4; i++)
+        {
+            podVectors[i] = Utils.addVectors(translationVector, rotationVectors[i]);
+        }
+
+        for (int i = 0; i < 4; i++)
+        {
+            if (magnitude != 0 || rotationMagnitude != 0)
+            {
+                pods[i].setDesiredAngle(podVectors[i][0]);
+                pods[i].setDesiredRPM(podVectors[i][1]);
+            }
+            else
+            {
+                pods[i].setDesiredRPM(0);
+            }
+        }
+
 
         /**
          * rh1 is the angle for pod1, and so on.

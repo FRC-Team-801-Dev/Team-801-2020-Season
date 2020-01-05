@@ -53,6 +53,6 @@ public class Constants
     public static final int POD_BACK_LEFT   = 2;
     public static final int POD_BACK_RIGHT  = 3;
 
-    public static final double ROBOT_LENGTH = 20.5;
-    public static final double ROBOT_WIDTH = 20.75;
+    public static final double ROBOT_LENGTH = 20.5; // inches
+    public static final double ROBOT_WIDTH = 20.75; // inches
 }

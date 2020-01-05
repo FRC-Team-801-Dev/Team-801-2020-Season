@@ -72,6 +72,9 @@ public class Utils
         return angle;
     }
 
+    /**
+     * 
+     */
     public static <X extends Comparable<X>> X max (X[] list)
     {
         X max = list[0];
@@ -81,5 +84,21 @@ public class Utils
                 max = x;
 
         return max;
+    }
+
+    /**
+     * Returns value limited to the range [lowerLimit, upperLimit]
+     * @param val
+     * @param lowerLimit
+     * @param upperLimit
+     * @return value limited to the range [lowerLimit, upperLimit]
+     */
+    public static double limitRange(double val, double lowerLimit, double upperLimit)
+    {
+        if (val > upperLimit)
+            return upperLimit;
+        if (val < lowerLimit)
+            return lowerLimit;
+        return val;
     }
 }

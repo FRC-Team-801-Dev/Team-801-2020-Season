@@ -65,10 +65,9 @@ public class Chassis extends Subsystem
             pod.processPod();
         }
 
-        double x_l = Robot.io.getDriverLeftX(); // Translation x
-        double y_l = -Robot.io.getDriverLeftY(); // Translation y
-        double x_r = Robot.io.getDriverRightX(); // Right stick x
-        // double y_r = -Robot.io.getDriverRightY(); // Right stick y
+        double x_l = Robot.io.getDriverExpoLeftX(1.5); // Translation X
+        double y_l = -Robot.io.getDriverExpoLeftY(1.5); // Translation Y
+        double x_r = Robot.io.getDriverExpoRightX(1.5); // Rotation (x)
 
         // Dimensions will change! What are the dimensions of the test chassis!
         // Change in Constants.java
@@ -89,124 +88,79 @@ public class Chassis extends Subsystem
         //----------------
         // SEE Constants.java
 
-        // double length = Constants.ROBOT_LENGTH;
-        // double width = Constants.ROBOT_WIDTH;
 
-        // double thetaChassis = Math.atan(Constants.ROBOT_LENGTH / Constants.ROBOT_WIDTH); // Gets the angle created from the center of the robot to the top right corner
+        // Angle from the center of the robot to the top right wheel
+        double thetaChassis = Utils.angle(Constants.ROBOT_LENGTH, Constants.ROBOT_WIDTH); // Gets the angle created from the center of the robot to the top right corner
 
-        double magnitude = Utils.magnitude(x_l, y_l) / Math.sqrt(2); // Magnitude of joystick movement
+        double magnitude = Utils.limitRange(Utils.magnitude(x_l, y_l), 0, 1); // Magnitude of left joystick movement
 
-        double angle = Utils.normalizeAngle(Utils.angle(x_l, y_l) - Math.PI / 2); // Angle of joystick
+        double angle = Utils.normalizeAngle(Utils.angle(x_l, y_l) - Math.PI / 2); // Angle of left joystick
 
-        double rotationMagnitude = x_r;
+        double rotationMagnitude = x_r; // Magnitude of right joystick sideways movement
 
+        // Angles of rotation of each wheel
+        // Each wheel needs to be perpendicular to the angle from the center to it
         double[] rotationAngles = {
-            (7 * Math.PI) / 4,
-            (5 * Math.PI) / 4,
-            (1 * Math.PI) / 4,
-            (3 * Math.PI) / 4
+            thetaChassis - Math.PI / 2, //  Angle for first wheel to turn the robot clockwise
+            -thetaChassis - Math.PI / 2, // Angle for second wheel "  "   "    "       "
+            -thetaChassis + Math.PI / 2, // Angle for third wheel  "  "   "    "       "
+            thetaChassis + Math.PI / 2   // Angle for fourth wheel "  "   "    "       "
         };
 
-        // double[] rotationAngles = {
-        //     2*Math.PI - thetaChassis,
-        //     Math.PI + thetaChassis,
-        //     thetaChassis,
-        //     Math.PI / 2 + thetaChassis
-        // };
+        double[] translationVector = {angle, magnitude}; // Vector that represents the translation of the robot
 
-        double[] translationVector = {angle, magnitude};
-
+        // An array of vectors for each wheel for the wheel rotation
         double[][] rotationVectors = new double[4][2];
 
+        // Create a rotation vector for wheel rotation for each one
         for (int i = 0; i < 4; i++)
         {
             rotationVectors[i] = new double[] {rotationAngles[i], rotationMagnitude};
         }
 
+        // An array of vectors for the final movement of each wheel
         double[][] podVectors = new double[4][2];
 
+        // Add the translation and rotation vectors to get the final movement vector
         for (int i = 0; i < 4; i++)
         {
             podVectors[i] = Utils.addVectors(translationVector, rotationVectors[i]);
         }
 
+        double maxVectorMagnitude = 0;
+
         for (int i = 0; i < 4; i++)
         {
+            if (podVectors[i][1] > maxVectorMagnitude)
+            {
+                maxVectorMagnitude = podVectors[i][1];
+            }
+        }
+
+        if (maxVectorMagnitude > 1.0)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                podVectors[i][1] /= maxVectorMagnitude;
+            }
+        }
+
+        // Loop through each swerve pod
+        for (int i = 0; i < 4; i++)
+        {
+            // If we are moving the sticks
             if (magnitude != 0 || rotationMagnitude != 0)
             {
+                // Set the angle and speed of each wheel according to the final vectors
                 pods[i].setDesiredAngle(podVectors[i][0]);
                 pods[i].setDesiredRPM(podVectors[i][1]);
             }
-            else
+            else // If we are not moving the sticks, set the wheel speed to 0
             {
                 pods[i].setDesiredRPM(0);
             }
         }
 
-
-        /**
-         * rh1 is the angle for pod1, and so on.
-         * These represent the angles from each pod to the center of the robot.
-         * (The angle each one must turn to, to point perpendicular to the line from the center to the pod)
-         */
-
-        // double rh1 = thetaChassis + Math.PI / 2;
-        // double rh2 = thetaChassis;
-        // double rh3 = 2*Math.PI - thetaChassis;
-        // double rh4 = thetaChassis + Math.PI;
-
-        // double rh1 = (3/4)*Math.PI;
-        // double rh2 = (1/4)*Math.PI;
-        // double rh3 = (7/4)*Math.PI;
-        // double rh4 = (5/4)*Math.PI;
-
-        // double rotationPower = -x_r; // The magnitude of the rotation that we want to perform
-
-        // SwervePower ranges from [0,1], but the xbox control ranges from [0,sqrt(2)], so divide by sqrt(2) 
-        // double speed = Utils.magnitude(x_l, y_l) / Math.sqrt(2);
-        // double heading = Utils.normalizeAngle(Utils.angle(x_l, y_l) - Math.PI/2);
-
-        // double[] translationVector = new double[] {heading, speed};
-
-        // Create an array we can loop over of the vectors
-        // double[][] finalVectors = new double[4][2];
-
-        // // We are storing arrays as double arrays in the form [angle, mag]
-        // finalVectors[0] = Utils.addVectors(new double[] {rh1, rotationPower}, translationVector);
-        // finalVectors[1] = Utils.addVectors(new double[] {rh2, rotationPower}, translationVector);
-        // finalVectors[2] = Utils.addVectors(new double[] {rh3, rotationPower}, translationVector);
-        // finalVectors[3] = Utils.addVectors(new double[] {rh4, rotationPower}, translationVector);
-
-        // Find the largest vector
-        // double maxVectorMagnitude = Utils.max(new Double[] {finalVectors[0][1], finalVectors[1][1], finalVectors[2][1], finalVectors[3][1]});
-
-        // // Normalize all of the vectors to less than 1.0
-        // // if at least one is larger than 1.0
-        // if (maxVectorMagnitude > 1.0)
-        // {
-        //     // Loop through and divide each by the longest
-        //     for (double[] vector : finalVectors)
-        //     {
-        //         vector[1] /= maxVectorMagnitude;
-        //     }
-        // }
-
-        // // Set all of the pod angles and speeds based on these vectors
-        // if (maxVectorMagnitude != 0)
-        // {
-        //     for (int i = 0; i < pods.length; i++) 
-        //     {
-        //         pods[i].setDesiredAngle(finalVectors[i][0]);
-        //         pods[i].setDesiredRPM(finalVectors[i][1]);
-        //     }
-        // }
-        // else
-        // {
-        //     for (SwervePod pod : pods)
-        //     {
-        //         pod.setDesiredRPM(0);
-        //     }
-        // }
     }
 
     /**

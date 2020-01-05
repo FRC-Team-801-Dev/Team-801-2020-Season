@@ -5,7 +5,6 @@ import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.commands.JoystickDriveChassis;
 import frc.robot.components.SwervePod;
-import frc.robot.utilities.Utils;
 
 /**
  * Subsystem to control the entire drive base
@@ -65,9 +64,10 @@ public class Chassis extends Subsystem
             pod.processPod();
         }
 
-        double x = Robot.io.getDriverLeftX(); // Translation x
-        double y = -Robot.io.getDriverLeftY(); // Translation y
-        double r = Robot.io.getDriverRightX(); // Rotation (x)
+        // double x_l = Robot.io.getDriverLeftX(); // Translation x
+        // double y_l = -Robot.io.getDriverLeftY(); // Translation y
+        double x_r = Robot.io.getDriverRightX(); // Right stick x
+        double y_r = -Robot.io.getDriverRightY(); // Right stick y
 
         // Dimensions will change! What are the dimensions of the test chassis!
         // Change in Constants.java
@@ -88,10 +88,20 @@ public class Chassis extends Subsystem
         //----------------
         // SEE Constants.java
 
-        double length = Constants.ROBOT_LENGTH;
-        double width = Constants.ROBOT_WIDTH;
+        // double length = Constants.ROBOT_LENGTH;
+        // double width = Constants.ROBOT_WIDTH;
 
-        double thetaChassis = Math.atan(length / width); // Gets the angle created from the center of the robot to the top right corner
+        // double thetaChassis = Math.atan(length / width); // Gets the angle created from the center of the robot to the top right corner
+
+
+        double magnitude = Math.sqrt( Math.pow(x_r, 2) + Math.pow(y_r, 2) ) / Math.sqrt(2); // Magnitude of joystick movement
+        double angle = Math.atan2(y_r, x_r); // Angle of joystick
+
+        for (SwervePod pod : pods)
+        {
+            pod.setDesiredAngle(angle);
+            pod.setDesiredRPM(magnitude);
+        }
 
         /**
          * rh1 is the angle for pod1, and so on.
@@ -99,63 +109,63 @@ public class Chassis extends Subsystem
          * (The angle each one must turn to, to point perpendicular to the line from the center to the pod)
          */
 
-        double rh1 = thetaChassis + Math.PI / 2;
-        double rh2 = thetaChassis;
-        double rh3 = 2*Math.PI - thetaChassis;
-        double rh4 = thetaChassis + Math.PI;
+        // double rh1 = thetaChassis + Math.PI / 2;
+        // double rh2 = thetaChassis;
+        // double rh3 = 2*Math.PI - thetaChassis;
+        // double rh4 = thetaChassis + Math.PI;
 
         // double rh1 = (3/4)*Math.PI;
         // double rh2 = (1/4)*Math.PI;
         // double rh3 = (7/4)*Math.PI;
         // double rh4 = (5/4)*Math.PI;
 
-        double rotationPower = -r; // The magnitude of the rotation that we want to perform
+        // double rotationPower = -x_r; // The magnitude of the rotation that we want to perform
 
         // SwervePower ranges from [0,1], but the xbox control ranges from [0,sqrt(2)], so divide by sqrt(2) 
-        double speed = Utils.magnitude(x, y) / Math.sqrt(2);
-        double heading = Utils.normalizeAngle(Utils.angle(x, y) - Math.PI/2);
+        // double speed = Utils.magnitude(x_l, y_l) / Math.sqrt(2);
+        // double heading = Utils.normalizeAngle(Utils.angle(x_l, y_l) - Math.PI/2);
 
-        double[] translationVector = new double[] {heading, speed};
+        // double[] translationVector = new double[] {heading, speed};
 
         // Create an array we can loop over of the vectors
-        double[][] finalVectors = new double[4][2];
+        // double[][] finalVectors = new double[4][2];
 
-        // We are storing arrays as double arrays in the form [angle, mag]
-        finalVectors[0] = Utils.addVectors(new double[] {rh1, rotationPower}, translationVector);
-        finalVectors[1] = Utils.addVectors(new double[] {rh2, rotationPower}, translationVector);
-        finalVectors[2] = Utils.addVectors(new double[] {rh3, rotationPower}, translationVector);
-        finalVectors[3] = Utils.addVectors(new double[] {rh4, rotationPower}, translationVector);
+        // // We are storing arrays as double arrays in the form [angle, mag]
+        // finalVectors[0] = Utils.addVectors(new double[] {rh1, rotationPower}, translationVector);
+        // finalVectors[1] = Utils.addVectors(new double[] {rh2, rotationPower}, translationVector);
+        // finalVectors[2] = Utils.addVectors(new double[] {rh3, rotationPower}, translationVector);
+        // finalVectors[3] = Utils.addVectors(new double[] {rh4, rotationPower}, translationVector);
 
         // Find the largest vector
-        double maxVectorMagnitude = Utils.max(new Double[] {finalVectors[0][1], finalVectors[1][1], finalVectors[2][1], finalVectors[3][1]});
+        // double maxVectorMagnitude = Utils.max(new Double[] {finalVectors[0][1], finalVectors[1][1], finalVectors[2][1], finalVectors[3][1]});
 
-        // Normalize all of the vectors to less than 1.0
-        // if at least one is larger than 1.0
-        if (maxVectorMagnitude > 1.0)
-        {
-            // Loop through and divide each by the longest
-            for (double[] vector : finalVectors)
-            {
-                vector[1] /= maxVectorMagnitude;
-            }
-        }
+        // // Normalize all of the vectors to less than 1.0
+        // // if at least one is larger than 1.0
+        // if (maxVectorMagnitude > 1.0)
+        // {
+        //     // Loop through and divide each by the longest
+        //     for (double[] vector : finalVectors)
+        //     {
+        //         vector[1] /= maxVectorMagnitude;
+        //     }
+        // }
 
-        // Set all of the pod angles and speeds based on these vectors
-        if (maxVectorMagnitude != 0)
-        {
-            for (int i = 0; i < pods.length; i++) 
-            {
-                pods[i].setDesiredAngle(finalVectors[i][0]);
-                pods[i].setDesiredRPM(finalVectors[i][1]);
-            }
-        }
-        else
-        {
-            for (SwervePod pod : pods)
-            {
-                pod.setDesiredRPM(0);
-            }
-        }
+        // // Set all of the pod angles and speeds based on these vectors
+        // if (maxVectorMagnitude != 0)
+        // {
+        //     for (int i = 0; i < pods.length; i++) 
+        //     {
+        //         pods[i].setDesiredAngle(finalVectors[i][0]);
+        //         pods[i].setDesiredRPM(finalVectors[i][1]);
+        //     }
+        // }
+        // else
+        // {
+        //     for (SwervePod pod : pods)
+        //     {
+        //         pod.setDesiredRPM(0);
+        //     }
+        // }
     }
 
     /**

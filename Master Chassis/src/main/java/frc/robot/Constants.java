@@ -11,7 +11,7 @@ public final class Constants
     public static double DRIVE_FF = 0.000;
     public static double DRIVE_MAX_OUTPUT = 1.0;
     public static double DRIVE_MIN_OUTPUT = -1.0;
-    public static boolean DRIVE_INVERT[] = {false, false, false, true}; //TODO: fix for later motor values
+    public static boolean DRIVE_INVERT[] = {true, false, false, true}; //TODO: fix for later motor values
     public static IdleMode DRIVE_IDLEMODE[] = {IdleMode.kCoast, IdleMode.kCoast, IdleMode.kCoast, IdleMode.kCoast}; 
 
     public static int DRIVE_MAX_RPM = 18730;

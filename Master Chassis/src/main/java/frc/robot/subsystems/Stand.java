@@ -7,38 +7,32 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Robot;
-import frc.robot.commands.JoystickDrive;
+import frc.robot.RobotContainer;
 import frc.robot.components.SwervePod;
 import frc.robot.utilities.Utils;
 
 /**
  * Add your docs here.
  */
-public class Stand extends Subsystem 
+public class Stand extends SubsystemBase
 {
-    
+
     private SwervePod pod = new SwervePod(Constants.DRIVE_POD_ID, Constants.TURN_POD_ID, 0);
 
     @Override
-    public void initDefaultCommand() 
+    public void periodic()
     {
-        setDefaultCommand(new JoystickDrive());
-    }
-
-    public void joystickDrive()
-    {
-      // Always call to process PID for turn motor
-      pod.processPod();
+        // Always call to process PID for turn motor
+        pod.processPod();
 
 
-      //double x = Robot.m_oi.getDriverX();
-        double speed = Utils.magnitude(Robot.io.getDriverLeftX(), Robot.io.getDriverLeftY());
+        //double x = Robot.m_oi.getDriverX();
+        double speed = Utils.magnitude(RobotContainer.io.getDriverLeftX(), RobotContainer.io.getDriverLeftY());
 
 
-       // double theta = Utils.angle(Robot.io.getDriverLeftX(), Robot.io.getDriverLeftY());
+        // double theta = Utils.angle(Robot.io.getDriverLeftX(), Robot.io.getDriverLeftY());
 
         //double mag = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) );
 
@@ -46,29 +40,29 @@ public class Stand extends Subsystem
         //System.out.println(theta);
         pod.setDesiredRPM(speed);
 
-        if(Robot.io.getButtonAPressed())
+        if(RobotContainer.io.getButtonAPressed())
         {
-          pod.setDesiredAngle(Math.PI/6);
+            pod.setDesiredAngle(Math.PI/6);
         }
 
-        if(Robot.io.getButtonBPressed())
+        if(RobotContainer.io.getButtonBPressed())
         {
-          pod.setDesiredAngle(Math.PI);
+            pod.setDesiredAngle(Math.PI);
         }
 
-        if(Robot.io.getButtonXPressed())
+        if(RobotContainer.io.getButtonXPressed())
         {
-          pod.setDesiredAngle(Math.PI/2);
+            pod.setDesiredAngle(Math.PI/2);
         }
 
-        
-        if(Robot.io.getButtonYPressed())
+
+        if(RobotContainer.io.getButtonYPressed())
         {
-          pod.setDesiredAngle(0);
+            pod.setDesiredAngle(0);
         }
     }
 
-    
+
     public double getAngle()
     {
         return pod.getCurrentAngle();

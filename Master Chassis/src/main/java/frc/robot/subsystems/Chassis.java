@@ -1,16 +1,15 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Robot;
-import frc.robot.commands.JoystickDriveChassis;
+import frc.robot.RobotContainer;
 import frc.robot.components.SwervePod;
 import frc.robot.utilities.Utils;
 
 /**
  * Subsystem to control the entire drive base
  */
-public class Chassis extends Subsystem 
+public class Chassis extends SubsystemBase 
 {
 
     //                      ^ Front
@@ -44,19 +43,11 @@ public class Chassis extends Subsystem
         }
     }
 
-
-    @Override
-    public void initDefaultCommand() 
-    {
-        setDefaultCommand(new JoystickDriveChassis());
-    }
-
-
-
     /**
-     * Function called by the JoystickDriveChassis command to drive the robot
+     * This method will be called once per scheduler run
      */
-    public void joystickDrive()
+    @Override
+    public void periodic()
     {
 
         // Always call to process PID for turn motors
@@ -65,9 +56,9 @@ public class Chassis extends Subsystem
             pod.processPod();
         }
 
-        double x_l = Robot.io.getDriverExpoLeftX(1.5); // Translation X
-        double y_l = -Robot.io.getDriverExpoLeftY(1.5); // Translation Y
-        double x_r = Robot.io.getDriverExpoRightX(1.5); // Rotation (x)
+        double x_l = RobotContainer.io.getDriverExpoLeftX(1.5); // Translation X
+        double y_l = -RobotContainer.io.getDriverExpoLeftY(1.5); // Translation Y
+        double x_r = RobotContainer.io.getDriverExpoRightX(1.5); // Rotation (x)
 
         // Dimensions will change! What are the dimensions of the test chassis!
         // Change in Constants.java

@@ -6,8 +6,16 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
+
+import frc.robot.Constants;
+
 public class DriveMotor
 {
+
+    private double currentRPM = 0.0;
+    private double desiredRPM = 0.0;
+
     private CANPIDController sparkPID;
     private CANSparkMax sparkMotor;
     private CANEncoder sparkEncoder;
@@ -22,11 +30,36 @@ public class DriveMotor
         sparkMotor = new CANSparkMax(motorID, MotorType.kBrushless);
         sparkPID = sparkMotor.getPIDController();
         sparkEncoder = sparkMotor.getEncoder();
+
+        sparkPID.setP(Constants.DRIVE_P);
+        sparkPID.setI(Constants.DRIVE_I);
+        sparkPID.setD(Constants.DRIVE_D);
+        sparkPID.setIZone(Constants.DRIVE_IZ);
+        sparkPID.setFF(Constants.DRIVE_FF);
+        sparkPID.setOutputRange(Constants.DRIVE_MIN_OUTPUT, Constants.DRIVE_MAX_OUTPUT);
+
+        sparkMotor.setSmartCurrentLimit(Constants.DRIVE_MAX_CURRENT_STALL, Constants.DRIVE_MAX_CURRENT_RUN);
     }
 
-    public void SetMotorSpeed(double motorSpeed)
+     /**
+     * 
+     * @param rpm desired RPMs of the motor shaft
+     */
+    public void setDesiredRPM(double rpm)
     {
-        sparkMotor.set(motorSpeed);
+        desiredRPM = rpm;
+        sparkPID.setReference(desiredRPM, ControlType.kVelocity);
     }
+
+    /**
+     * 
+     * @return motor shaft velocity in RPM
+     */
+    public double getCurrentRPM()
+    {
+        currentRPM = sparkEncoder.getVelocity();
+        return currentRPM;
+    }
+
     
 }

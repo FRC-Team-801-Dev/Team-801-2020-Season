@@ -23,6 +23,9 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj2.command.Command;
+
+import java.util.Map;
+
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
@@ -31,35 +34,41 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.MotorController;
 
+import frc.robot.components.DriveMotor;
 
 
 public class MotorController extends SubsystemBase
 {
     
-    private NetworkTableEntry motorSpeed;
+    private double motorSpeed;
     
+    NetworkTableEntry sliderValue;
+
+    DriveMotor sparkMotor = new DriveMotor(13);
     
     //private SpeedController sparkMotorController
-    
-
-    
+       
     
     /**
      * Creates a new MotorController
      */
     public MotorController()
     {
+        /*
         Shuffleboard.enableActuatorWidgets();
         
         ShuffleboardTab motorTab = Shuffleboard.getTab("MotorControl");
-            motorTab.add("Motor Speed Slider", 1)
-            .withWidget(BuiltInWidgets.kNumberSlider)
-            .getEntry();
+        sliderValue = motorTab.add("Motor Speed Slider", 0)
+        .withWidget(BuiltInWidgets.kNumberSlider)
+        .withProperties(Map.of("min", 0, "max", 1)) // specify widget properties here
+        .getEntry();
+        */
     }
 
     @Override
     public void periodic()
     {
+        sparkMotor.setDesiredRPM(100); 
         // This method will be called once per scheduler run
     }
 

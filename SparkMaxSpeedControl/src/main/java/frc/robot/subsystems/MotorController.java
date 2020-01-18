@@ -31,7 +31,7 @@ import frc.robot.subsystems.MotorController;
 public class MotorController extends SubsystemBase
 {
     
-    
+    private MotorController sparkMotorController;
     private NetworkTableEntry motorSpeed;
     
     //private SpeedController sparkMotorController
@@ -49,11 +49,9 @@ public class MotorController extends SubsystemBase
         
         
         NetworkTableEntry motorControllerTab = Shuffleboard.getTab("MotorControlTab")
-        .getLayout("MotorControlLayout", BuiltInLayouts.kList)
+        .getLayout("MotorControlLayout", BuiltInLayouts.kGrid)
         .add("MotorControlPanel", false)
-        .withWidget()
         .getEntry();
-
     }
 
     @Override

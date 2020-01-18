@@ -23,6 +23,11 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj2.command.Command;
+import com.revrobotics.CANEncoder;
+import com.revrobotics.CANPIDController;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.ControlType;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.MotorController;
 
@@ -31,11 +36,12 @@ import frc.robot.subsystems.MotorController;
 public class MotorController extends SubsystemBase
 {
     
-    private MotorController sparkMotorController;
     private NetworkTableEntry motorSpeed;
+    
     
     //private SpeedController sparkMotorController
     
+
     
     
     /**
@@ -43,15 +49,12 @@ public class MotorController extends SubsystemBase
      */
     public MotorController()
     {
-        
-        
         Shuffleboard.enableActuatorWidgets();
         
-        
-        NetworkTableEntry motorControllerTab = Shuffleboard.getTab("MotorControlTab")
-        .getLayout("MotorControlLayout", BuiltInLayouts.kGrid)
-        .add("MotorControlPanel", false)
-        .getEntry();
+        ShuffleboardTab motorTab = Shuffleboard.getTab("MotorControl");
+            motorTab.add("Motor Speed Slider", 1)
+            .withWidget(BuiltInWidgets.kNumberSlider)
+            .getEntry();
     }
 
     @Override

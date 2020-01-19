@@ -43,6 +43,11 @@ public class MotorController extends SubsystemBase
     NetworkTableEntry motorTab;
     
     NetworkTableEntry sliderValue;
+    NetworkTableEntry motorRPMs;
+    NetworkTableEntry directInput;
+
+    double lastDirect;
+
 
     DriveMotor sparkMotor = new DriveMotor(13);
     
@@ -54,22 +59,44 @@ public class MotorController extends SubsystemBase
      */
     public MotorController()
     {
-       /*
+    
         Shuffleboard.enableActuatorWidgets();
         
-        ShuffleboardTab motorTab = Shuffleboard.getTab("MotorControl");
-        sliderValue = motorTab.add("Motor Speed Slider", 0)
+        ShuffleboardTab motorTab = Shuffleboard.getTab("Motor Control");
+        motorTab.getLayout("Motor Readout", BuiltInLayouts.kList);
+        
+
+        directInput = motorTab.add("Direct Speed Control", 0.0)
+        .getEntry();
+        lastDirect = directInput.getDouble(0.0);
+
+        sliderValue = motorTab.add("Motor Speed Control", 0)
         .withWidget(BuiltInWidgets.kNumberSlider)
         .withProperties(Map.of("min", 0, "max", 1)) // specify widget properties here
         .getEntry();
-    */
+
+        motorRPMs = motorTab.add("Motor Speed Readout", 0)
+        .withWidget(BuiltInWidgets.kDial)
+        .withProperties(Map.of("min", 0, "max", 6000))
+        .getEntry();
+    
     }
 
     @Override
     public void periodic()
     {
-        sparkMotor.setDesiredRPM(0.5); 
+
+        if (directInput.getDouble(0.0) != lastDirect) 
+        {
+            sliderValue.setDouble(directInput.getDouble(0.0));
+            lastDirect = directInput.getDouble(0.0);
+        }
+        
+        sparkMotor.setDesiredRPM(sliderValue.getDouble(0));
+        
+        motorRPMs.setDouble(sparkMotor.getCurrentRPM());
         // This method will be called once per scheduler run
+
     }
 
     public void init()

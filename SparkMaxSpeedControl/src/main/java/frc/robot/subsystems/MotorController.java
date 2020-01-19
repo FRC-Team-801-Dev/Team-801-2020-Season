@@ -40,7 +40,7 @@ import frc.robot.components.DriveMotor;
 public class MotorController extends SubsystemBase
 {
     
-    private double motorSpeed;
+    NetworkTableEntry motorTab;
     
     NetworkTableEntry sliderValue;
 
@@ -54,7 +54,7 @@ public class MotorController extends SubsystemBase
      */
     public MotorController()
     {
-        /*
+       /*
         Shuffleboard.enableActuatorWidgets();
         
         ShuffleboardTab motorTab = Shuffleboard.getTab("MotorControl");
@@ -62,13 +62,13 @@ public class MotorController extends SubsystemBase
         .withWidget(BuiltInWidgets.kNumberSlider)
         .withProperties(Map.of("min", 0, "max", 1)) // specify widget properties here
         .getEntry();
-        */
+    */
     }
 
     @Override
     public void periodic()
     {
-        sparkMotor.setDesiredRPM(100); 
+        sparkMotor.setDesiredRPM(0.5); 
         // This method will be called once per scheduler run
     }
 

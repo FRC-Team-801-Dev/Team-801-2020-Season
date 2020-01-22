@@ -15,7 +15,7 @@ public class JoystickDrive extends Command {
   {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    //requires(Robot.s_stand);
+    requires(Robot.s_stand);
   }
 
   // Called just before this Command runs the first time
@@ -29,7 +29,7 @@ public class JoystickDrive extends Command {
   @Override
   protected void execute() 
   {
-    //Robot.s_stand.joystickDrive();
+    Robot.s_stand.joystickDrive();
   }
 
   // Make this return true when this Command no longer needs to run execute()

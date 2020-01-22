@@ -27,17 +27,19 @@ public class TurnMotor
 
   public TurnMotor(int motorID, int motorIndex)
   {
-      sparkMotor = new CANSparkMax(motorID, MotorType.kBrushed);
+      sparkMotor = new CANSparkMax(motorID, MotorType.kBrushless);
       
+      sparkEncoder = sparkMotor.getEncoder(EncoderType.kHallSensor, 42);
       // sparkEncoder = sparkMotor.getEncoder(EncoderType.kQuadrature, 4096 * 6);
-      sparkEncoder = sparkMotor.getEncoder(EncoderType.kQuadrature, 8192 * 6);
+      // sparkEncoder = sparkMotor.getEncoder(EncoderType.kQuadrature, 8192 * 6);
 
-      sparkEncoder.setPositionConversionFactor(2*Math.PI);  // encoder will return radians
+      sparkEncoder.setPositionConversionFactor(2*Math.PI / 60);  // encoder will return radians
       // zero the encoder on init to avoid haveing to power off the bot every time.
       sparkEncoder.setPosition(0.0);
 
       sparkMotor.setInverted(Constants.TURN_INVERT[motorIndex]);
       sparkMotor.setIdleMode(Constants.TURN_IDLEMODE[motorIndex]);
+      sparkMotor.setSmartCurrentLimit(Constants.TURN_MAX_CURRENT_STALL, Constants.TURN_MAX_CURRENT_RUN);
 
       // create and initialize the PID for the heading
       anglePID = new PID(Constants.TURN_P, Constants.TURN_I, Constants.TURN_D);
@@ -72,7 +74,7 @@ public class TurnMotor
     sparkMotor.set(vTheta);
 
     // diagnostic print. comment out of production code
-    // System.out.printf("desiredAngle: , currentAngle: %.4f , %.4f , %.4f  \n", desiredAngle, currentAngle, vTheta);
+    System.out.printf("desiredAngle: , currentAngle: %.4f , %.4f , %.4f  \n", desiredAngle, currentAngle, vTheta);
   }
 
   // basic getter for angle.  Possible use for Dashboard

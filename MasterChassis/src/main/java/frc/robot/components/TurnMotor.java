@@ -27,17 +27,27 @@ public class TurnMotor
 
   public TurnMotor(int motorID, int motorIndex)
   {
-      sparkMotor = new CANSparkMax(motorID, MotorType.kBrushed);
+      // sparkMotor = new CANSparkMax(motorID, MotorType.kBrushed);  // Old cim brushed steer motor
+      sparkMotor = new CANSparkMax(motorID, MotorType.kBrushless);  // new Neo 550 brushless motor
       
-      // sparkEncoder = sparkMotor.getEncoder(EncoderType.kQuadrature, 4096 * 6);
-      sparkEncoder = sparkMotor.getEncoder(EncoderType.kQuadrature, 8192 * 6);
+      // sparkEncoder = sparkMotor.getEncoder(EncoderType.kQuadrature, 4096 * 6);  // CTR encoder (one with little magnet on the end of the shaft)
+      // sparkEncoder = sparkMotor.getEncoder(EncoderType.kQuadrature, 8192 * 6);  // New shaft encoder Rev Through Bore Encoder version
 
-      sparkEncoder.setPositionConversionFactor(2*Math.PI);  // encoder will return radians
+      // for the Neo 550 motor built in encoder we need to do the external gear reductions math in the setPositionConversionFactor
+      sparkEncoder = sparkMotor.getEncoder(EncoderType.kHallSensor, 42);  // Spark Neo 550 motor built in encoder  (need to do the external gear red)
+
+      //sparkEncoder.setPositionConversionFactor(2 * Math.PI);  // for the CRT and other shaft encoder
+
+      // for the Neo 550 motor built in encoder we need to do the external gear reductions math in the setPositionConversionFact
+      // 6 to 1 for the steer gear and 10 to 1 for the gearbox on the little motor.
+      sparkEncoder.setPositionConversionFactor(2 * Math.PI / 60);  // encoder will return radians
+
       // zero the encoder on init to avoid haveing to power off the bot every time.
       sparkEncoder.setPosition(0.0);
 
       sparkMotor.setInverted(Constants.TURN_INVERT[motorIndex]);
       sparkMotor.setIdleMode(Constants.TURN_IDLEMODE[motorIndex]);
+      sparkMotor.setSmartCurrentLimit(Constants.TURN_MAX_CURRENT_STALL, Constants.TURN_MAX_CURRENT_RUN);
 
       // create and initialize the PID for the heading
       anglePID = new PID(Constants.TURN_P, Constants.TURN_I, Constants.TURN_D);

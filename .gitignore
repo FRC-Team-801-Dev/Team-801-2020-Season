@@ -129,7 +129,7 @@ gradle-app.setting
 .classpath
 .project
 .settings/
-bin/
+/**/bin/
 imgui.ini
 
 

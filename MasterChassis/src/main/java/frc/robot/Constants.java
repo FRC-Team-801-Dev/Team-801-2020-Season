@@ -11,7 +11,7 @@ public final class Constants
     public static double DRIVE_FF = 0.000;
     public static double DRIVE_MAX_OUTPUT = 1.0;
     public static double DRIVE_MIN_OUTPUT = -1.0;
-    public static boolean DRIVE_INVERT[] = {true, false, false, true}; //TODO: fix for later motor values
+    public static boolean DRIVE_INVERT[] = {true, false, false, true}; 
     public static IdleMode DRIVE_IDLEMODE[] = {IdleMode.kCoast, IdleMode.kCoast, IdleMode.kCoast, IdleMode.kCoast}; 
 
     public static int DRIVE_MAX_RPM = 18730;
@@ -29,8 +29,11 @@ public final class Constants
     public static double OutputFilter = 0;
     public static double SetpointRange = 2 * Math.PI;
 
-    public static boolean TURN_INVERT[] = {false, false, false, false}; //TODO: fix for later motor values
+    public static boolean TURN_INVERT[] = {false, false, false, false};
     public static IdleMode TURN_IDLEMODE[] = {IdleMode.kBrake, IdleMode.kBrake, IdleMode.kBrake, IdleMode.kBrake};
+
+    public static int TURN_MAX_CURRENT_STALL = 30;
+    public static int TURN_MAX_CURRENT_RUN = 20;
 
     public static int DRIVE_POD_ID = 1;
     public static int TURN_POD_ID = 4;

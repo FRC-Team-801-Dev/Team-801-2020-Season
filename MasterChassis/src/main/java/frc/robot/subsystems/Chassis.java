@@ -1,10 +1,25 @@
 package frc.robot.subsystems;
 
+import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.SPI;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.components.SwervePod;
 import frc.robot.utilities.Utils;
+import java.util.Map;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardContainer;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardComponent;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 
 /**
  * Subsystem to control the entire drive base
@@ -35,12 +50,31 @@ public class Chassis extends SubsystemBase
 
     private SwervePod[] pods = new SwervePod[] {pod1, pod2, pod3, pod4};
 
+    private AHRS gyro;
+
+    NetworkTableEntry gyroAngle;
+
     public Chassis()
     {
         for(SwervePod pod : pods)
         {
             pod.zeroEncoder();
         }
+
+        try {
+            /* Communicate w/navX-MXP via the MXP SPI Bus.                                     */
+            /* Alternatively:  I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB     */
+            /* See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for details. */
+            gyro = new AHRS(SPI.Port.kMXP); 
+        } catch (RuntimeException ex ) {
+            DriverStation.reportError("Error instantiating navX-MXP:  " + ex.getMessage(), true);
+        }
+
+        //Shuffleboard.enableActuatorWidgets();
+
+        gyroAngle = Shuffleboard.getTab("SmartDashboard")
+        .add("Angle Display", 0).withWidget(BuiltInWidgets.kGyro).getEntry();;
+  
     }
 
     /**
@@ -50,15 +84,17 @@ public class Chassis extends SubsystemBase
     public void periodic()
     {
 
+        gyroAngle.setNumber(gyro.getAngle());
+
         // Always call to process PID for turn motors
         for (SwervePod pod : pods)
         {
             pod.processPod();
         }
 
-        double x_l = RobotContainer.io.getDriverExpoLeftX(1.5); // Translation X
-        double y_l = -RobotContainer.io.getDriverExpoLeftY(1.5); // Translation Y
-        double x_r = RobotContainer.io.getDriverExpoRightX(1.5); // Rotation (x)
+        double x_l = RobotContainer.io.getDriverExpoLeftX(2.5); // Translation X
+        double y_l = -RobotContainer.io.getDriverExpoLeftY(2.5); // Translation Y
+        double x_r = RobotContainer.io.getDriverExpoRightX(2.5); // Rotation (x)
 
         // Dimensions will change! What are the dimensions of the test chassis!
         // Change in Constants.java

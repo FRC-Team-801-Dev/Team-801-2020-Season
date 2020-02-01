@@ -23,7 +23,7 @@ public class IO
      */
     public double getDriverLeftX()
     {
-        return deadbandFilter(driver.getX(), 0.08);
+        return deadbandFilter(driver.getX(), 0.1);
     }
 
     /**
@@ -31,7 +31,7 @@ public class IO
      */
     public double getDriverLeftY()
     {
-        return deadbandFilter(driver.getY(), 0.05);
+        return deadbandFilter(driver.getY(), 0.1);
     }
 
     /**
@@ -39,7 +39,7 @@ public class IO
      */
     public double getDriverRightX()
     {
-        return deadbandFilter(driver.getRawAxis(4), 0.05); 
+        return deadbandFilter(driver.getRawAxis(4), 0.1); 
     }
 
     /**
@@ -47,7 +47,7 @@ public class IO
      */
     public double getDriverRightY()
     {
-        return deadbandFilter(driver.getRawAxis(5), 0.05); 
+        return deadbandFilter(driver.getRawAxis(5), 0.1); 
     }
 
 

@@ -63,7 +63,7 @@ public class TurnMotor
       anglePID.setMaxIOutput(Constants.MaxIOutput);
       anglePID.setOutputRampRate(Constants.OutputRampRate);
       anglePID.setOutputFilter(Constants.OutputFilter);
-      anglePID.setSetpointRange(Constants.SetpointRange, Constants.SetpointRange);
+      anglePID.setSetpointRange(Constants.SetpointRange);
       anglePID.setContinousInputRange(2 * Math.PI);  // sets circular continuous input range
       anglePID.setContinous(true);  // lets PID know we are working with a continuous range [0-360)
 

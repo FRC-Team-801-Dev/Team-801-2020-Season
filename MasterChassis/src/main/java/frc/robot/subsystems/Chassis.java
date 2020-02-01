@@ -9,17 +9,21 @@ import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.components.SwervePod;
 import frc.robot.utilities.Utils;
-import java.util.Map;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardContainer;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardComponent;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import frc.robot.utilities.PID;
+import frc.robot.utilities.RollingAverage;
+
+
+// import java.util.Map;
+// import edu.wpi.first.networktables.NetworkTable;
+// import edu.wpi.first.networktables.NetworkTableEntry;
+// import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+// import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+// import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardContainer;
+// import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardComponent;
+// import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+// import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 
 /**
  * Subsystem to control the entire drive base
@@ -52,7 +56,31 @@ public class Chassis extends SubsystemBase
 
     private AHRS gyro;
 
-    NetworkTableEntry gyroAngle;
+      // Speed component for rotation about the Z axis. [-x, x]
+    private static double vTheta;
+
+    // heading about a unit circle in radians.
+    private static double desiredHeading;  // rotates about the Z axis [0,360) deg.
+    private static double currentHeading;  // rotates about the Z axis [0,360) deg.
+  
+    // PID for the heading
+    private final double propCoeff = 0.1;
+    private final double integCoeff = 0.0;
+    private final double diffCoeff = 0.0;
+    private final double OutputLowLimit = -1;
+    private final double OutputHighLimit = 1;
+    private final double MaxIOutput = 1;
+    private final double OutputRampRate = 0.1;
+    private final double OutputFilter = 0;
+    private final double SetpointRange = 360;
+
+    private final double headingThreshold = 0.05;
+    private final int headdingAverageNumberOfSamples = 5;
+
+    private PID headingPID;
+    private RollingAverage averageHeading;
+
+    //NetworkTableEntry gyroAngle;
 
     public Chassis()
     {
@@ -60,6 +88,8 @@ public class Chassis extends SubsystemBase
         {
             pod.zeroEncoder();
         }
+
+        vTheta = 0;
 
         try {
             /* Communicate w/navX-MXP via the MXP SPI Bus.                                     */
@@ -70,10 +100,32 @@ public class Chassis extends SubsystemBase
             DriverStation.reportError("Error instantiating navX-MXP:  " + ex.getMessage(), true);
         }
 
-        //Shuffleboard.enableActuatorWidgets();
 
-        gyroAngle = Shuffleboard.getTab("SmartDashboard")
-        .add("Angle Display", 0).withWidget(BuiltInWidgets.kGyro).getEntry();;
+
+
+        
+
+        headingPID = new PID(propCoeff, integCoeff, diffCoeff); 
+        averageHeading = new RollingAverage(headdingAverageNumberOfSamples);
+
+        gyro.reset();
+
+
+        // set initial desired heading to the current actual heading.
+        desiredHeading = currentHeading = gyro.getYaw();
+
+        //gyroAngle = Shuffleboard.getTab("SmartDashboard")
+        //.add("Angle Display", 0).withWidget(BuiltInWidgets.kGyro).getEntry();
+
+        // initially setup the PID parameters
+        headingPID.setOutputLimits(OutputLowLimit, OutputHighLimit);
+        headingPID.setMaxIOutput(MaxIOutput);
+        headingPID.setOutputRampRate(OutputRampRate);
+        headingPID.setOutputFilter(OutputFilter);
+        headingPID.setAngleUnits(PID.AngleUnit.degrees);
+        headingPID.setSetpointRange(SetpointRange);
+        headingPID.setContinousInputRange(360);
+        headingPID.setContinous(true);  // lets PID know we are working with a continuous range [0-360)
   
     }
 
@@ -83,18 +135,40 @@ public class Chassis extends SubsystemBase
     @Override
     public void periodic()
     {
-
-        gyroAngle.setNumber(gyro.getAngle());
-
-        // Always call to process PID for turn motors
-        for (SwervePod pod : pods)
-        {
-            pod.processPod();
-        }
-
         double x_l = RobotContainer.io.getDriverExpoLeftX(2.5); // Translation X
         double y_l = -RobotContainer.io.getDriverExpoLeftY(2.5); // Translation Y
         double x_r = RobotContainer.io.getDriverExpoRightX(2.5); // Rotation (x)
+
+
+        // if there is new joystick input update the heading otherwise hold the current heading as
+        // the setpoint.
+        // headding is in radians so just using the +/- 1 from the joystick to add as a bias to the
+        // current angle will put the desired head +/- 57 degrees from current.  This should be more
+        // than enough to move the bot at max rotation speed.
+        // The chasing of this setpoint is controled by the PID loop on the vTheta value.
+    
+    
+        averageHeading.add( x_r );  // average in the current stick value
+    
+        // if the averaged stick input is greater then the headingThreshold go ahead and adjust the heading.
+        // This keeps from updating the desiredHeading value if no joystick input is being made.
+        // Otherwise, it will always drive the desiredHeading to 0 (neutral joystick position)
+        if (Math.abs(averageHeading.getAverage()) > headingThreshold) 
+        {
+          desiredHeading = currentHeading + averageHeading.getAverage();
+          // keep heading a positive angle
+          if (desiredHeading < 0) {
+            desiredHeading += ( 360 );
+          }
+        }
+        // get magnitude and direction for the roatation.
+        vTheta = IMUAngleProcessing();
+    
+        System.out.printf("vTheta: %.4f \n" , vTheta);
+
+        // PID controls the vTheta input to the wheel power equation.
+        // vTheta = headingPID.getOutput(currentHeading, desiredHeading );
+
 
         // Dimensions will change! What are the dimensions of the test chassis!
         // Change in Constants.java
@@ -123,7 +197,7 @@ public class Chassis extends SubsystemBase
 
         double angle = Utils.normalizeAngle(Utils.angle(x_l, y_l) - Math.PI / 2); // Angle of left joystick
 
-        double rotationMagnitude = x_r; // Magnitude of right joystick sideways movement
+        double rotationMagnitude = vTheta; // Magnitude of right joystick sideways movement
 
         // Angles of rotation of each wheel
         // Each wheel needs to be perpendicular to the angle from the center to it
@@ -187,7 +261,12 @@ public class Chassis extends SubsystemBase
                 pods[i].setDesiredRPM(0);
             }
         }
-
+           
+        // Always call to process PID for turn motors
+        for (SwervePod pod : pods)
+        {
+            pod.processPod();
+        }
     }
 
     /**
@@ -198,4 +277,29 @@ public class Chassis extends SubsystemBase
     {
         return new double[] {pod1.getCurrentAngle(), pod2.getCurrentAngle(), pod3.getCurrentAngle(), pod4.getCurrentAngle()};
     }
+
+    
+    // grab the imu heading and crunch out the values used for navigation and telemetry.
+    // This method produces the heading input component to the motors from the PID that holds the
+    // desired angle.  The error from the PID is sent to the motors in the vTheta variable.
+    private double IMUAngleProcessing() 
+    {
+      // in degrees +/- 0 to 180 where CCW is - and CW is +  //TODO Verify CW is negative angle
+      double yawAngle = gyro.getYaw();
+  
+      System.out.printf("yawAngle: %.4f  desired: %.4f  curr: %.4f\n" , yawAngle, desiredHeading, currentHeading );
+  
+      // convert  imu angle range to our [0, 360) range
+      if (yawAngle < 0) {
+        currentHeading = yawAngle + 360;
+      } else {
+        currentHeading = yawAngle;
+      }
+  
+       return headingPID.getOutput(currentHeading, desiredHeading);
+    }
+  
+
+    
+
 }

@@ -2,6 +2,12 @@ package frc.robot.utilities;
 
 public class PID
 {
+
+    // Public 
+    public enum AngleUnit {degrees, radians};
+
+
+
   //**********************************
   // Class private variables
   //**********************************
@@ -30,12 +36,18 @@ public class PID
 
   private double outputFilter=0;
 
-  private double setpointRangeLo=0;
-  private double setpointRangeHi=0;
+  private double setpointRange=0;
   private double continousInputRange=0;
 
   private boolean continous;
   private double error;
+
+  // tells stuff what angle units we are using.
+  private AngleUnit angleMode;  
+
+
+
+
 
   //**********************************
   // Constructor functions
@@ -52,6 +64,7 @@ public class PID
   {
     P=p; I=i; D=d;
     checkSigns();
+    angleMode = AngleUnit.degrees;  
   }
 
   /**
@@ -63,6 +76,7 @@ public class PID
   {
     P=p; I=i; D=d; F=f;
     checkSigns();
+    angleMode = AngleUnit.degrees;  
   }
 
   /**
@@ -238,6 +252,12 @@ public class PID
     this.setpoint = setpoint;
   }
 
+
+  public void setAngleUnits(AngleUnit angleUnit)
+  {
+    this.angleMode = angleUnit;
+  }
+
   /**
    * Calculate the output value for the current PID cycle.<br>
    * @param actual The monitored value, typically as a sensor input.
@@ -254,8 +274,8 @@ public class PID
     this.setpoint = setpoint;
 
     // Ramp the setpoint used for calculations if user has opted to do so
-    if(setpointRangeHi!=0 && setpointRangeLo!=0){
-      setpoint=constrain(setpoint,actual-setpointRangeLo,actual+setpointRangeHi);
+    if(setpointRange!=0){
+      setpoint=constrain(setpoint,actual-setpointRange,actual+setpointRange);
     }
 
     // Do the simple parts of the calculations
@@ -283,7 +303,6 @@ public class PID
       }
     }
 
-
     // Calculate F output. Notice, this depends only on the setpoint, and not the error.
     Foutput = F*setpoint;
 
@@ -303,8 +322,8 @@ public class PID
     // Calculate D Term
     // Note, this is negative. This actually "slows" the system if it's doing
     // the correct thing, and small values helps prevent output spikes and overshoot
-  
-    if(continous)
+     
+    if(continous && angleMode == AngleUnit.radians)
     {
       if(Math.abs(actual-lastActual) > Math.PI)
       {
@@ -315,6 +334,21 @@ public class PID
         else
         {
           actual += 2*Math.PI;
+        }
+      }
+    }
+
+    if(continous && angleMode == AngleUnit.degrees)
+    {
+      if(Math.abs(actual-lastActual) > 180)
+      {
+        if(actual > lastActual)
+        {
+          actual -= 360;
+        }
+        else
+        {
+          actual += 360;
         }
       }
     }
@@ -438,10 +472,9 @@ public class PID
    * during large setpoint adjustments. Increases lag and I term if range is too small.
    * @param range, with units being the same as the expected sensor range.
    */
-  public void setSetpointRange(double rangeLo, double rangeHi)
+  public void setSetpointRange(double range)
   {
-    setpointRangeLo=rangeLo;
-    setpointRangeHi=rangeHi;
+    setpointRange=range;
   }
 
   /**

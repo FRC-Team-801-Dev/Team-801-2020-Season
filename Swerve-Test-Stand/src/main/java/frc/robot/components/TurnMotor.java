@@ -5,8 +5,7 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.EncoderType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
-//import edu.wpi.first.wpilibj.CAN;
+import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants;
 import frc.robot.utilities.*;
 
@@ -19,7 +18,7 @@ public class TurnMotor
   //private CANPIDController sparkPID;
   private CANSparkMax sparkMotor;
   private CANEncoder sparkEncoder;
-
+  private DigitalInput zeroAngleInput;
   private PID anglePID = null;
 
   // error signal to motor range -1 to 1 based PID error with angle inputs ranging [0 to 2PI)
@@ -28,7 +27,7 @@ public class TurnMotor
   public TurnMotor(int motorID, int motorIndex)
   {
       sparkMotor = new CANSparkMax(motorID, MotorType.kBrushless);
-      
+      zeroAngleInput = new DigitalInput(Constants.TURN_ZERO_IO_PORT); 
       sparkEncoder = sparkMotor.getEncoder(EncoderType.kHallSensor, 42);
       // sparkEncoder = sparkMotor.getEncoder(EncoderType.kQuadrature, 4096 * 6);
       // sparkEncoder = sparkMotor.getEncoder(EncoderType.kQuadrature, 8192 * 6);
@@ -71,10 +70,15 @@ public class TurnMotor
     AngleProcessing();
 
     // send to motor, signal -1 to 1
-    sparkMotor.set(vTheta);
+    if(zeroAngleInput.get())
+    {
+      System.out.printf("desiredAngle: , currentAngle: %.4f , %.4f , %.4f  \n", desiredAngle, currentAngle, vTheta);
+    }
 
+    sparkMotor.set(vTheta);
+  
     // diagnostic print. comment out of production code
-    System.out.printf("desiredAngle: , currentAngle: %.4f , %.4f , %.4f  \n", desiredAngle, currentAngle, vTheta);
+    // System.out.printf("desiredAngle: , currentAngle: %.4f , %.4f , %.4f  \n", desiredAngle, currentAngle, vTheta);
   }
 
   // basic getter for angle.  Possible use for Dashboard

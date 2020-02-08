@@ -38,5 +38,6 @@ public class Constants
 
     public static final int DRIVE_POD_ID = 13;
     public static final int TURN_POD_ID = 4;
+    public static final int TURN_ZERO_IO_PORT = 0;
 
 }

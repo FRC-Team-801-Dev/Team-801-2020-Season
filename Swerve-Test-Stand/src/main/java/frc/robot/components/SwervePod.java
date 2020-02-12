@@ -78,9 +78,9 @@ public class SwervePod
         return turnMotor.getCurrentAngle();
     }
 
-    public void zeroEncoder()
+    public void resetEncoder()
     {
-      turnMotor.zeroEncoder();
+      turnMotor.resetEncoder();
     }
 
 }

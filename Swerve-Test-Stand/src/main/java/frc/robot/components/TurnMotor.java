@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants;
 import frc.robot.utilities.*;
+//import jdk.javadoc.internal.doclets.toolkit.resources.doclets;
 
 public class TurnMotor
 {
@@ -20,6 +21,10 @@ public class TurnMotor
   private CANEncoder sparkEncoder;
   private DigitalInput zeroAngleInput;
   private PID anglePID = null;
+
+  private boolean isCalibrated = false;
+  private double calOffset = 0;
+  private final double POD_CAL_OFFSET = 2.588;
 
   // error signal to motor range -1 to 1 based PID error with angle inputs ranging [0 to 2PI)
   private static double vTheta;
@@ -66,15 +71,15 @@ public class TurnMotor
   // process loop, called every execution cycle
   public void processTurn()
   {
+
+    if (!isCalibrated)
+    {
+      calibrateAngle();
+    }
     // get PID error signal to send to the motor
     AngleProcessing();
 
     // send to motor, signal -1 to 1
-    if(zeroAngleInput.get())
-    {
-      System.out.printf("desiredAngle: , currentAngle: %.4f , %.4f , %.4f  \n", desiredAngle, currentAngle, vTheta);
-    }
-
     sparkMotor.set(vTheta);
   
     // diagnostic print. comment out of production code
@@ -109,7 +114,7 @@ public class TurnMotor
   {
      // fetch the encoder ( +/- 1 = 1 rotation )
      // mod div to get number between (-2PI and 2PI) 
-      currentAngle = sparkEncoder.getPosition() % (2 * Math.PI); 
+      currentAngle = (sparkEncoder.getPosition() - calOffset) % (2 * Math.PI); 
       
       // always keep in terms of positive angle 0 to 2PI
       if(currentAngle < 0) 
@@ -120,9 +125,22 @@ public class TurnMotor
       vTheta = anglePID.getOutput(currentAngle, desiredAngle);
   }
   
-  public void zeroEncoder()
+  public void resetEncoder()
   {
-    sparkEncoder.setPosition(0.0);
+    isCalibrated = false;
+    System.out.printf("Encoder: %.4f \n", sparkEncoder.getPosition());
   }
 
+  public void calibrateAngle()
+  {  
+    System.out.printf("StartEncoder: %.4f \n", sparkEncoder.getPosition());
+    while(!zeroAngleInput.get())
+    {
+      sparkMotor.set(0.1);
+    }
+    sparkMotor.set(0.0);
+    System.out.printf("PinEncoder: %.4f \n", sparkEncoder.getPosition());
+    calOffset = sparkEncoder.getPosition() - POD_CAL_OFFSET;
+    isCalibrated = true;
+  }
 }

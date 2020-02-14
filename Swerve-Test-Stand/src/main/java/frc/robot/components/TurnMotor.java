@@ -24,7 +24,9 @@ public class TurnMotor
 
   private boolean isCalibrated = false;
   private double calOffset = 0;
+  //private final double POD_CAL_OFFSET = 2.588;
   private final double POD_CAL_OFFSET = 2.588;
+
 
   // error signal to motor range -1 to 1 based PID error with angle inputs ranging [0 to 2PI)
   private static double vTheta;

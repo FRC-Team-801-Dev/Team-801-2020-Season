@@ -41,7 +41,8 @@ public class Stand extends SubsystemBase
     private AddressableLEDBuffer m_ledBuffer;
     // Store what the last hue of the first pixel is
     private int m_rainbowFirstPixelHue;
-
+    private int m_tracePosition = 0;
+    private boolean traceFlag = false;
 
 
     public Stand()
@@ -109,6 +110,11 @@ public class Stand extends SubsystemBase
         }
 
 
+        if(RobotContainer.io.getButtonYPressed())
+        {
+          launchTrace();
+        }
+
 
         Color detectedColor = m_colorSensor.getColor();
 
@@ -143,14 +149,19 @@ public class Stand extends SubsystemBase
 
 
 
-    // Fill the buffer with a rainbow
-    rainbow();
+        // Fill the buffer with a rainbow
+        //rainbow();
+        // Set the LEDs
+        //m_led.setData(m_ledBuffer);
 
-    // Set the LEDs
-    m_led.setData(m_ledBuffer);
-
+        if(traceFlag)
+        {
+          trace();
+        // Set the LEDs
+        m_led.setData(m_ledBuffer);
+        } 
     }
-    
+
 
     public double getAngle()
     {
@@ -173,6 +184,33 @@ public class Stand extends SubsystemBase
       m_rainbowFirstPixelHue += 3;
       // Check bounds
       m_rainbowFirstPixelHue %= 180;
+    }
+
+
+    public void launchTrace()
+    {
+      traceFlag = true;
+      m_tracePosition = 0;
+    }
+    
+
+    private void trace() {
+      // For every pixel
+      for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+        if( i > m_tracePosition - 5 && i <= m_tracePosition)
+        {
+          m_ledBuffer.setRGB(i, 0, 0, 255);
+        }
+        else
+        {
+          m_ledBuffer.setRGB(i, 0, 0, 0);
+        }
+      }
+      ++m_tracePosition;
+      if(m_tracePosition > m_ledBuffer.getLength() + 6)
+      {
+        traceFlag = false;  //stop the trace
+      }
     }
 
 }

@@ -7,20 +7,18 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-import frc.robot.RobotContainer;
-import frc.robot.components.SwervePod;
-import frc.robot.utilities.RollingAverage;
-import frc.robot.utilities.Utils;
-
-import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.util.Color;
 import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.RobotContainer;
+import frc.robot.components.SwervePod;
+import frc.robot.utilities.Utils;
 
 
 /**
@@ -127,9 +125,51 @@ public class Stand extends SubsystemBase
          * Open Smart Dashboard or Shuffleboard to see the color detected by the 
          * sensor.
          */
+
+        // Calculate hue from RGB
+        double hue = -1;
+        double max_v = Utils.max(detectedColor.red, detectedColor.green, detectedColor.blue);
+        double delta = max_v - Utils.min(detectedColor.red, detectedColor.green, detectedColor.blue);
+
+        if (max_v == detectedColor.red)
+        {
+          hue = (detectedColor.green - detectedColor.blue)/delta % 6;
+        } else if (max_v == detectedColor.green)
+        {
+          hue = (detectedColor.blue - detectedColor.red)/delta + 2;
+        } else if (max_v == detectedColor.blue) 
+        {
+          hue = (detectedColor.red - detectedColor.green)/delta + 4;
+        }
+
+
         SmartDashboard.putNumber("Red", detectedColor.red);
         SmartDashboard.putNumber("Green", detectedColor.green);
         SmartDashboard.putNumber("Blue", detectedColor.blue);
+
+        /* Hue Chart:
+         * blue   = 3.00
+         * green  = 2.20
+         * red    = 0.55
+         * yellow = 1.55 
+        */
+
+        // Write the color to the SmartDashboard
+        SmartDashboard.putNumber("Hue", hue);
+        if (Utils.aboutEqual(hue, 3.0))
+        {
+          SmartDashboard.putString("Color", "blue");
+        } else if (Utils.aboutEqual(hue, 2.2))
+        {
+          SmartDashboard.putString("Color", "green");
+        } else if (Utils.aboutEqual(hue, 0.55))
+        {
+          SmartDashboard.putString("Color", "red");
+        } else if (Utils.aboutEqual(hue, 1.55))
+        {
+          SmartDashboard.putString("Color", "yellow");
+        }
+
         SmartDashboard.putNumber("IR", IR);
     
         /**

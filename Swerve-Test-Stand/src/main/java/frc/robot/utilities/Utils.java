@@ -67,7 +67,25 @@ public class Utils
         return angle;
     }
 
-    public static <X extends Comparable<X>> X max (X[] list)
+    public static boolean aboutEqual(double value, double target)
+    {
+        return aboutEqual(value, target, 0.1);
+    }
+
+    public static boolean aboutEqual(double value, double target, double range)
+    {
+        range = Math.abs(range);
+        if (value < target + range && value > target - range)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public static <X extends Comparable<X>> X max(X... list)
     {
         X max = list[0];
         
@@ -76,5 +94,16 @@ public class Utils
                 max = x;
 
         return max;
+    }
+
+    public static <X extends Comparable<X>> X min(X... list)
+    {
+        X min = list[0];
+
+        for(X x : list)
+            if (x.compareTo(min) < 0)
+                min = x;
+
+        return min;
     }
 }

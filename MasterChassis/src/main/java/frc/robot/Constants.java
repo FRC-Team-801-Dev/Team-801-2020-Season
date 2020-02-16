@@ -58,4 +58,17 @@ public final class Constants
 
     public static double ROBOT_LENGTH = 20.5; // inches
     public static double ROBOT_WIDTH = 20.75; // inches
+
+    //TalonSRX Motor IDs
+    public static int gatherMotorID = 0;
+    public static int upperMagMotorID = 0;
+    public static int lowerMagMotorID = 0;
+    
+    public static int shooterMotorID = 0;
+    public static int boltMotorID = 0;
+
+    
+
+
+
 }

@@ -40,23 +40,23 @@ public class Stand extends SubsystemBase
         //System.out.println(theta);
         pod.setDesiredRPM(speed);
 
-        if(RobotContainer.io.getButtonAPressed())
+        if(RobotContainer.io.getButtonAPressedDriver())
         {
             pod.setDesiredAngle(Math.PI/6);
         }
 
-        if(RobotContainer.io.getButtonBPressed())
+        if(RobotContainer.io.getButtonBPressedDriver())
         {
             pod.setDesiredAngle(Math.PI);
         }
 
-        if(RobotContainer.io.getButtonXPressed())
+        if(RobotContainer.io.getButtonXPressedDriver())
         {
             pod.setDesiredAngle(Math.PI/2);
         }
 
 
-        if(RobotContainer.io.getButtonYPressed())
+        if(RobotContainer.io.getButtonYPressedDriver())
         {
             pod.setDesiredAngle(0);
         }

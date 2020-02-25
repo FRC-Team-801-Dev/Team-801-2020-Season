@@ -17,6 +17,7 @@ public class IO
 {
 
     public static Joystick driver = new Joystick(0);
+    public static Joystick manipulator = new Joystick(1);
 
     /**
      * @return the horizontal axis value from the left driver controller
@@ -93,26 +94,99 @@ public class IO
     }
 
 
-    public boolean getButtonAPressed()
+    public boolean getButtonAPressedDriver()
     {
         return driver.getRawButton(1);
     }
 
-    public boolean getButtonBPressed()
+    public boolean getButtonBPressedDriver()
     {
         return driver.getRawButton(2);
     }
     
-    public boolean getButtonXPressed()
+    public boolean getButtonXPressedDriver()
     {
         return driver.getRawButton(3);
     }
 
-    public boolean getButtonYPressed()
+    public boolean getButtonYPressedDriver()
     {
         return driver.getRawButton(4);
     }
 
+    public boolean getButtonLBumperPressedDriver()
+    {
+        return driver.getRawButton(5);
+    }
+
+    public boolean getButtonRBumperPressedDriver()
+    {
+        return driver.getRawButton(6);
+    }
+
+    
+    /**
+     * @return the horizontal axis value from the left driver controller
+     */
+    public double getManipulatorLeftX()
+    {
+        return deadbandFilter(manipulator.getX(), 0.1);
+    }
+
+    /**
+     * @return the vertical axis value from the left joystick on the driver controller
+     */
+    public double getManipulatorLeftY()
+    {
+        return deadbandFilter(manipulator.getY(), 0.1);
+    }
+
+    /**
+     * @return the horizontal axis value from the right joystick on the driver controller
+     */
+    public double getManipulatorRightX()
+    {
+        return deadbandFilter(manipulator.getRawAxis(4), 0.1); 
+    }
+
+    /**
+     * @return the vertical axis value from the right joystick on the driver controller
+     */
+    public double getManipulatorRightY()
+    {
+        return deadbandFilter(manipulator.getRawAxis(5), 0.1); 
+    }
+
+
+    public boolean getButtonAPressedManipulator()
+    {
+        return manipulator.getRawButton(1);
+    }
+
+    public boolean getButtonBPressedManipulator()
+    {
+        return manipulator.getRawButton(2);
+    }
+    
+    public boolean getButtonXPressedManipulator()
+    {
+        return manipulator.getRawButton(3);
+    }
+
+    public boolean getButtonYPressedManipulator()
+    {
+        return manipulator.getRawButton(4);
+    }
+
+    public boolean getButtonLBumperPressedManipulator()
+    {
+        return manipulator.getRawButton(5);
+    }
+
+    public boolean getButtonRBumperPressedManipulator()
+    {
+        return manipulator.getRawButton(6);
+    }
 
     /**
      * This function takes a joystick input and applies an exponential scaling

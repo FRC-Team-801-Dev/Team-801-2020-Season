@@ -61,14 +61,10 @@ public final class Constants
 
     //TalonSRX Motor IDs
     public static int gatherMotorID = 0;
-    public static int upperMagMotorID = 0;
-    public static int lowerMagMotorID = 0;
+    public static int magazineMotorID = 0;
     
     public static int shooterMotorID = 0;
-    public static int boltMotorID = 0;
+    public static int breachMotorID = 0;
 
     
-
-
-
 }

@@ -10,39 +10,48 @@ package frc.robot.subsystems;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.CANEncoder;
+import com.revrobotics.CANPIDController;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.ControlType;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Gatherzine extends SubsystemBase 
 {
-  private TalonSRX gatherer;
-  private TalonSRX upperMag;
-  private TalonSRX lowerMag;  
+  private CANSparkMax gatherMotor;
+  private CANEncoder gatherEncoder;
+  
+  private CANSparkMax magazineMotor;
+  private CANEncoder magazineEncoder;
+  
   
   /**
    * Creates a new Gatherer and magazine combination.
    * 
    */
-  public Gatherzine() 
+  public Gatherzine(int gatherMotorID, int magazineMotorID) 
   {
-    gatherer = new TalonSRX(Constants.gatherMotorID);
-    upperMag = new TalonSRX(Constants.upperMagMotorID);
-    lowerMag = new TalonSRX(Constants.lowerMagMotorID);
+    gatherMotor = new CANSparkMax(gatherMotorID, MotorType.kBrushless);
+    gatherEncoder = gatherMotor.getEncoder();
+    gatherMotor.setSmartCurrentLimit(Constants.DRIVE_MAX_CURRENT_STALL, Constants.DRIVE_MAX_CURRENT_RUN);
+    
+    magazineMotor = new CANSparkMax(magazineMotorID, MotorType.kBrushless);
+    magazineEncoder = magazineMotor.getEncoder();
+    magazineMotor.setSmartCurrentLimit(Constants.DRIVE_MAX_CURRENT_STALL, Constants.DRIVE_MAX_CURRENT_RUN);
+     
+
+  }
+  
+  public void gather()
+  {
+
   }
 
   @Override
   public void periodic() 
   {
     // This method will be called once per scheduler run
-    if(RobotContainer.io.getButtonXPressed())
-    {
-      gatherer.set(ControlMode.Velocity, 1500);
-      upperMag.set(ControlMode.Velocity, 1500);
-      lowerMag.set(ControlMode.Velocity, 1500);
-    }
-
   }
 }

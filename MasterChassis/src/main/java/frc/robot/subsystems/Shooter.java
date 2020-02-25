@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.Gatherzine;
 
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
@@ -21,15 +22,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Shooter extends SubsystemBase
 {
   private CANPIDController shooterPID;
-  private CANPIDController boltPID;
+  private CANPIDController breachPID;
   private CANSparkMax shooterMotor;
-  private CANSparkMax boltMotor;
+  private CANSparkMax breachMotor;
   private CANEncoder shooterEncoder;
-  private CANEncoder boltEncoder;
+  private CANEncoder breachEncoder;
   /**
    * Creates a new Shooter.
    */
-  public Shooter(int shooterMotorID, int boltMotorID) 
+  public Shooter(int shooterMotorID, int breachMotorID) 
   {
     shooterMotor = new CANSparkMax(shooterMotorID, MotorType.kBrushless);
     shooterPID = shooterMotor.getPIDController();
@@ -43,17 +44,17 @@ public class Shooter extends SubsystemBase
 
     shooterMotor.setSmartCurrentLimit(Constants.DRIVE_MAX_CURRENT_STALL, Constants.DRIVE_MAX_CURRENT_RUN);
 
-    boltMotor = new CANSparkMax(boltMotorID, MotorType.kBrushless);
-    boltPID = boltMotor.getPIDController();
-    boltEncoder = boltMotor.getEncoder();
-    boltPID.setP(Constants.DRIVE_P);
-    boltPID.setI(Constants.DRIVE_I);
-    boltPID.setD(Constants.DRIVE_D);
-    boltPID.setIZone(Constants.DRIVE_IZ);
-    boltPID.setFF(Constants.DRIVE_FF);
-    boltPID.setOutputRange(Constants.DRIVE_MIN_OUTPUT, Constants.DRIVE_MAX_OUTPUT);
+    breachMotor = new CANSparkMax(breachMotorID), MotorType.kBrushless);
+    breachPID = breachMotor.getPIDController();
+    breachEncoder = breachMotor.getEncoder();
+    breachPID.setP(Constants.DRIVE_P);
+    breachPID.setI(Constants.DRIVE_I);
+    breachPID.setD(Constants.DRIVE_D);
+    breachPID.setIZone(Constants.DRIVE_IZ);
+    breachPID.setFF(Constants.DRIVE_FF);
+    breachPID.setOutputRange(Constants.DRIVE_MIN_OUTPUT, Constants.DRIVE_MAX_OUTPUT);
     
-    boltMotor.setSmartCurrentLimit(Constants.DRIVE_MAX_CURRENT_STALL, Constants.DRIVE_MAX_CURRENT_RUN);
+    breachMotor.setSmartCurrentLimit(Constants.DRIVE_MAX_CURRENT_STALL, Constants.DRIVE_MAX_CURRENT_RUN);
   }
 
   //TODO: find correct speed
@@ -64,21 +65,12 @@ public class Shooter extends SubsystemBase
   //TODO: set to go by rotations rather than speed and fix control setup
   public void launchBall()
   {
-    boltPID.setReference(4000, ControlType.kDutyCycle);
+    breachPID.setReference(4000, ControlType.kDutyCycle);
   }
 
   @Override
   public void periodic() 
   {
     // This method will be called once per scheduler run
-    if(RobotContainer.io.getButtonXPressed())
-    {
-      activateShooter();
-    }
-    if(RobotContainer.io.getButtonYPressed())
-    {
-      launchBall();
-    }
-    
   }
 }

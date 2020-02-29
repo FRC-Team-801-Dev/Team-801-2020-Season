@@ -11,7 +11,7 @@ public final class Constants
     public static double DRIVE_FF = 0.000;
     public static double DRIVE_MAX_OUTPUT = 1.0;
     public static double DRIVE_MIN_OUTPUT = -1.0;
-    public static boolean DRIVE_INVERT[] = {true, false, false, true}; 
+    public static boolean DRIVE_INVERT[] = {false, false, false, true}; 
     public static IdleMode DRIVE_IDLEMODE[] = {IdleMode.kCoast, IdleMode.kCoast, IdleMode.kCoast, IdleMode.kCoast}; 
 
     public static int DRIVE_MAX_RPM = 18730;
@@ -35,20 +35,17 @@ public final class Constants
     public static int TURN_MAX_CURRENT_STALL = 30;
     public static int TURN_MAX_CURRENT_RUN = 20;
 
-    public static int DRIVE_POD_ID = 1;
-    public static int TURN_POD_ID = 4;
-
     // Better naming scheme for multiple pods
-    public static int POD_1_DRIVE = 13;
+    public static int POD_1_DRIVE = 13;  // Left Front
     public static int POD_1_TURN = 9;
 
-    public static int POD_2_DRIVE = 4;
+    public static int POD_2_DRIVE = 4;   // Right Front
     public static int POD_2_TURN = 8;
 
-    public static int POD_3_DRIVE = 16;
+    public static int POD_3_DRIVE = 16;  // Left Rear
     public static int POD_3_TURN = 12;
 
-    public static int POD_4_DRIVE = 1;
+    public static int POD_4_DRIVE = 1;   // Right Rear
     public static int POD_4_TURN = 5;
 
     public static int POD_FRONT_LEFT  = 0;

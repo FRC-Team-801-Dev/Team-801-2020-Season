@@ -132,9 +132,14 @@ public class Chassis extends SubsystemBase
      */
     public void teleopPeriodic()
     {
-        double x_l = RobotContainer.io.getDriverExpoLeftX(2.5); // Translation X
-        double y_l = -RobotContainer.io.getDriverExpoLeftY(2.5); // Translation Y
-        double x_r = RobotContainer.io.getDriverExpoRightX(2.5); // Rotation (x)
+        drive(RobotContainer.io.getDriverExpoLeftX(2.5), -RobotContainer.io.getDriverExpoLeftY(2.5), -RobotContainer.io.getDriverExpoRightX(2.5));
+    }
+
+    public void drive(double x, double y, double r)
+    {
+        // double x_l = RobotContainer.io.getDriverExpoLeftX(2.5); // Translation X
+        // double y_l = -RobotContainer.io.getDriverExpoLeftY(2.5); // Translation Y
+        // double x_r = RobotContainer.io.getDriverExpoRightX(2.5); // Rotation (x)
 
 
         // if there is new joystick input update the heading otherwise hold the current heading as
@@ -145,7 +150,7 @@ public class Chassis extends SubsystemBase
         // The chasing of this setpoint is controled by the PID loop on the vTheta value.
     
     
-        averageHeading.add( x_r * joystickTurnMultiplier );  // average in the current stick value
+        averageHeading.add( r * joystickTurnMultiplier );  // average in the current stick value
     
         // if the averaged stick input is greater then the headingThreshold go ahead and adjust the heading.
         // This keeps from updating the desiredHeading value if no joystick input is being made.
@@ -190,9 +195,9 @@ public class Chassis extends SubsystemBase
         // Angle from the center of the robot to the top right wheel
         double thetaChassis = Utils.angle(Constants.ROBOT_LENGTH, Constants.ROBOT_WIDTH); // Gets the angle created from the center of the robot to the top right corner
 
-        double magnitude = Utils.limitRange(Utils.magnitude(x_l, y_l), 0, 1); // Magnitude of left joystick movement
+        double magnitude = Utils.limitRange(Utils.magnitude(x, y), 0, 1); // Magnitude of left joystick movement
 
-        double angle = Utils.normalizeAngle(Utils.angle(x_l, y_l) - Math.PI / 2); // Angle of left joystick
+        double angle = Utils.normalizeAngle(Utils.angle(x, y) - Math.PI / 2); // Angle of left joystick
 
         double rotationMagnitude = vTheta; // Magnitude of right joystick sideways movement
 

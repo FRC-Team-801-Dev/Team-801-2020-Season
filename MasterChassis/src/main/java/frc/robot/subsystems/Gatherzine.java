@@ -31,17 +31,15 @@ public class Gatherzine extends SubsystemBase
    * Creates a new Gatherer and magazine combination.
    * 
    */
-  public Gatherzine(int gatherMotorID, int magazineMotorID) 
+  public Gatherzine() 
   {
-    gatherMotor = new CANSparkMax(gatherMotorID, MotorType.kBrushless);
+    gatherMotor = new CANSparkMax(Constants.gatherMotorID, MotorType.kBrushless);
     gatherEncoder = gatherMotor.getEncoder();
     gatherMotor.setSmartCurrentLimit(Constants.DRIVE_MAX_CURRENT_STALL, Constants.DRIVE_MAX_CURRENT_RUN);
     
-    magazineMotor = new CANSparkMax(magazineMotorID, MotorType.kBrushless);
+    magazineMotor = new CANSparkMax(Constants.magazineMotorID, MotorType.kBrushless);
     magazineEncoder = magazineMotor.getEncoder();
     magazineMotor.setSmartCurrentLimit(Constants.DRIVE_MAX_CURRENT_STALL, Constants.DRIVE_MAX_CURRENT_RUN);
-     
-
   }
   
   public void gather()

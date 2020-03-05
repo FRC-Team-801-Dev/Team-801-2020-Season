@@ -31,9 +31,9 @@ public class LifterWinch extends SubsystemBase
   /**
    * Creates a new LifterWinch.
    */
-  public LifterWinch(int lifterMotorID, int winchMotorID) 
+  public LifterWinch() 
   {
-    lifterMotor = new CANSparkMax(lifterMotorID, MotorType.kBrushless);
+    lifterMotor = new CANSparkMax(Constants.lifterMotorID, MotorType.kBrushless);
     lifterPID = lifterMotor.getPIDController();
     lifterEncoder = lifterMotor.getEncoder(EncoderType.kHallSensor, 42);
     lifterPID.setP(Constants.DRIVE_P);
@@ -45,7 +45,7 @@ public class LifterWinch extends SubsystemBase
 
     lifterMotor.setSmartCurrentLimit(Constants.DRIVE_MAX_CURRENT_STALL, Constants.DRIVE_MAX_CURRENT_RUN);
 
-    winchMotor = new CANSparkMax(winchMotorID, MotorType.kBrushless);
+    winchMotor = new CANSparkMax(Constants.winchMotorID, MotorType.kBrushless);
     winchPID = winchMotor.getPIDController();
     winchEncoder = winchMotor.getEncoder();
     winchPID.setP(Constants.DRIVE_P);

@@ -44,7 +44,7 @@ public class Shooter extends SubsystemBase
 
     shooterMotor.setSmartCurrentLimit(Constants.DRIVE_MAX_CURRENT_STALL, Constants.DRIVE_MAX_CURRENT_RUN);
 
-    breachMotor = new CANSparkMax(breachMotorID), MotorType.kBrushless);
+    breachMotor = new CANSparkMax(breachMotorID, MotorType.kBrushless);
     breachPID = breachMotor.getPIDController();
     breachEncoder = breachMotor.getEncoder();
     breachPID.setP(Constants.DRIVE_P);

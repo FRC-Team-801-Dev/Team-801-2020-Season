@@ -13,6 +13,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Gatherzine;
+import frc.robot.subsystems.LifterWinch;
+import frc.robot.subsystems.Shooter;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -25,7 +28,10 @@ public class RobotContainer
 
     public static IO io;
     
-    public static Chassis chassis;
+    public static Chassis chassis = new Chassis();
+    public static Gatherzine gatherzine = new Gatherzine();
+    public static LifterWinch lifterWinch = new LifterWinch();
+    public static Shooter shooter;
 
     private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
@@ -38,9 +44,7 @@ public class RobotContainer
     {
 
         io = new IO();
-
-        chassis = new Chassis();
-
+        
         // Configure the button bindings
         configureButtonBindings();
     }

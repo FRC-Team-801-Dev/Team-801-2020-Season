@@ -113,6 +113,10 @@ public class Stand extends SubsystemBase
           launchTrace();
         }
 
+        if(RobotContainer.io.getButtonBPressed())
+        {
+          pod.printCurrentCount();
+        }
 
         Color detectedColor = m_colorSensor.getColor();
 
@@ -239,7 +243,7 @@ public class Stand extends SubsystemBase
       for (var i = 0; i < m_ledBuffer.getLength(); i++) {
         if( i > m_tracePosition - 5 && i <= m_tracePosition)
         {
-          m_ledBuffer.setRGB(i, 0, 0, 255);
+          m_ledBuffer.setRGB(i, 255, 0, 0);
         }
         else
         {

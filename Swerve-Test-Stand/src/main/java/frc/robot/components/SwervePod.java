@@ -83,4 +83,10 @@ public class SwervePod
       turnMotor.resetEncoder();
     }
 
+
+    public void printCurrentCount()
+    {
+      turnMotor.printCurrentCount();
+    }
+
 }

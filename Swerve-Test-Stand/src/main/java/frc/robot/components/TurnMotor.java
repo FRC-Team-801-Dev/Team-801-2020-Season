@@ -1,13 +1,15 @@
 package frc.robot.components;
 
-
+import com.revrobotics.CANDigitalInput;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.EncoderType;
+import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants;
 import frc.robot.utilities.*;
+
 //import jdk.javadoc.internal.doclets.toolkit.resources.doclets;
 
 public class TurnMotor
@@ -22,10 +24,12 @@ public class TurnMotor
   private DigitalInput zeroAngleInput;
   private PID anglePID = null;
 
+  private CANDigitalInput m_forwardLimit;
+  
   private boolean isCalibrated = false;
   private double calOffset = 0;
   //private final double POD_CAL_OFFSET = 2.588;
-  private final double POD_CAL_OFFSET = 2.588;
+  private final double POD_CAL_OFFSET = 2.59;
 
 
   // error signal to motor range -1 to 1 based PID error with angle inputs ranging [0 to 2PI)
@@ -46,6 +50,7 @@ public class TurnMotor
       sparkMotor.setInverted(Constants.TURN_INVERT[motorIndex]);
       sparkMotor.setIdleMode(Constants.TURN_IDLEMODE[motorIndex]);
       sparkMotor.setSmartCurrentLimit(Constants.TURN_MAX_CURRENT_STALL, Constants.TURN_MAX_CURRENT_RUN);
+      m_forwardLimit = sparkMotor.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyClosed);
 
       // create and initialize the PID for the heading
       anglePID = new PID(Constants.TURN_P, Constants.TURN_I, Constants.TURN_D);
@@ -93,7 +98,7 @@ public class TurnMotor
   {
       return this.currentAngle;
   }
- 
+
 
   // takes -PI to PI and processes the output to the motor controller.
   // This must be called repeatedly in the main robot loop.
@@ -116,8 +121,8 @@ public class TurnMotor
   {
      // fetch the encoder ( +/- 1 = 1 rotation )
      // mod div to get number between (-2PI and 2PI) 
-      currentAngle = (sparkEncoder.getPosition() - calOffset) % (2 * Math.PI); 
-      
+     currentAngle = (sparkEncoder.getPosition() - calOffset) % (2 * Math.PI); 
+     //currentAngle = (sparkEncoder.getPosition() - POD_CAL_OFFSET) % (2 * Math.PI);
       // always keep in terms of positive angle 0 to 2PI
       if(currentAngle < 0) 
       {
@@ -135,14 +140,29 @@ public class TurnMotor
 
   public void calibrateAngle()
   {  
-    System.out.printf("StartEncoder: %.4f \n", sparkEncoder.getPosition());
-    while(!zeroAngleInput.get())
+
+    m_forwardLimit.enableLimitSwitch(true);
+    //System.out.printf("StartEncoder: %.4f \n", sparkEncoder.getPosition());
+    while(!m_forwardLimit.get())
     {
-      sparkMotor.set(0.1);
+      sparkMotor.set(0.2);
     }
     sparkMotor.set(0.0);
-    System.out.printf("PinEncoder: %.4f \n", sparkEncoder.getPosition());
+    //System.out.printf("PinEncoder: %.4f \n", sparkEncoder.getPosition());
     calOffset = sparkEncoder.getPosition() - POD_CAL_OFFSET;
+    //calOffset = 0;
+    //sparkEncoder.setPosition(0.0);
+    m_forwardLimit.enableLimitSwitch(false);
     isCalibrated = true;
   }
+
+
+  public void printCurrentCount()
+  {
+    System.out.printf("Encoder: %.4f \n", sparkEncoder.getPosition());
+  }
+ 
+
+
+
 }

@@ -35,10 +35,7 @@ public final class Constants
     public static int TURN_MAX_CURRENT_STALL = 30;
     public static int TURN_MAX_CURRENT_RUN = 20;
 
-    public static int DRIVE_POD_ID = 1;
-    public static int TURN_POD_ID = 4;
-
-    // Better naming scheme for multiple pods
+    // Swerve Pod Motor CAN IDs
     public static int POD_1_DRIVE = 13;
     public static int POD_1_TURN = 9;
 
@@ -51,6 +48,7 @@ public final class Constants
     public static int POD_4_DRIVE = 1;
     public static int POD_4_TURN = 5;
 
+    // Swerve Pod position numbers
     public static int POD_FRONT_LEFT  = 0;
     public static int POD_FRONT_RIGHT = 1;
     public static int POD_BACK_LEFT   = 2;
@@ -59,7 +57,7 @@ public final class Constants
     public static double ROBOT_LENGTH = 20.5; // inches
     public static double ROBOT_WIDTH = 20.75; // inches
 
-    //Neo Motor IDs
+    //Manipulator Neo Motor IDs
     public static int gatherMotorID = 0;
     public static int magazineMotorID = 0;
     

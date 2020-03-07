@@ -26,7 +26,7 @@ public class Constants
     public static final double OutputLowLimit = -1;
     public static final double OutputHighLimit = 1;
     public static final double MaxIOutput = 0.6;
-    public static final double OutputRampRate = .15;
+    public static final double OutputRampRate = 0.15;
     public static final double OutputFilter = 0;
     public static final double SetpointRange = 2 * Math.PI;
 
@@ -37,7 +37,7 @@ public class Constants
     public static final int TURN_MAX_CURRENT_RUN = 10;
 
     public static final int DRIVE_POD_ID = 13;
-    public static final int TURN_POD_ID = 4;
+    public static final int TURN_POD_ID = 9;
     public static final int TURN_ZERO_IO_PORT = 0;
 
 }

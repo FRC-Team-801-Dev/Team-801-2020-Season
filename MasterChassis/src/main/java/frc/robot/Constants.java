@@ -36,17 +36,17 @@ public final class Constants
     public static int TURN_MAX_CURRENT_RUN = 20;
 
     // Swerve Pod Motor CAN IDs
-    public static int POD_1_DRIVE = 13;
-    public static int POD_1_TURN = 9;
+    public static int POD_1_DRIVE = 13;       // NEO
+    public static int POD_1_TURN = 9;         // 550 mini-NEO
 
-    public static int POD_2_DRIVE = 4;
-    public static int POD_2_TURN = 8;
+    public static int POD_2_DRIVE = 4;        // NEO
+    public static int POD_2_TURN = 8;         // 550 mini-NEO
 
-    public static int POD_3_DRIVE = 16;
-    public static int POD_3_TURN = 12;
+    public static int POD_3_DRIVE = 16;       // NEO
+    public static int POD_3_TURN = 12;        // 550 mini-NEO
 
-    public static int POD_4_DRIVE = 1;
-    public static int POD_4_TURN = 5;
+    public static int POD_4_DRIVE = 1;        // NEO
+    public static int POD_4_TURN = 5;         // 550 mini-NEO
 
     // Swerve Pod position numbers
     public static int POD_FRONT_LEFT  = 0;
@@ -58,14 +58,17 @@ public final class Constants
     public static double ROBOT_WIDTH = 20.75; // inches
 
     //Manipulator Neo Motor IDs
-    public static int gatherMotorID = 0;
-    public static int magazineMotorID = 0;
+    public static int gatherMotorID = 0;        // 550 mini-NEO
+    public static int magazineMotorID = 0;      // 550 mini-NEO
     
-    public static int shooterMotorID = 0;
-    public static int breachMotorID = 0;
+    public static int terretMotorID = 0;        // 550 mini-NEO
 
-    public static int lifterMotorID = 0;
-    public static int winchMotorID = 0;
+    public static int shooterMotorID = 0;       // NEO
+    public static int breachMotorID = 0;        // 550 mini-NEO
 
+    public static int lifterMotorID = 0;        // 550 mini-NEO
+    public static int winchMotorID = 0;         // NEO 
+
+    public static int colorWheelMotorID = 0;    // 550 mini-NEO 
     
 }

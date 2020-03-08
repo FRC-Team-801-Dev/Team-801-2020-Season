@@ -19,31 +19,31 @@ import com.revrobotics.EncoderType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class LifterWinch extends SubsystemBase 
+public class ArmWinch extends SubsystemBase 
 {
-  private CANPIDController lifterPID;
+  private CANPIDController armPID;
   private CANPIDController winchPID;
-  private CANSparkMax lifterMotor;
+  private CANSparkMax armMotor;
   private CANSparkMax winchMotor;
-  private CANEncoder lifterEncoder;
+  private CANEncoder armEncoder;
   private CANEncoder winchEncoder;
 
   /**
    * Creates a new LifterWinch.
    */
-  public LifterWinch() 
+  public ArmWinch() 
   {
-    lifterMotor = new CANSparkMax(Constants.lifterMotorID, MotorType.kBrushless);
-    lifterPID = lifterMotor.getPIDController();
-    lifterEncoder = lifterMotor.getEncoder(EncoderType.kHallSensor, 42);
-    lifterPID.setP(Constants.DRIVE_P);
-    lifterPID.setI(Constants.DRIVE_I);
-    lifterPID.setD(Constants.DRIVE_D);
-    lifterPID.setIZone(Constants.DRIVE_IZ);
-    lifterPID.setFF(Constants.DRIVE_FF);
-    lifterPID.setOutputRange(Constants.DRIVE_MIN_OUTPUT, Constants.DRIVE_MAX_OUTPUT);
+    armMotor = new CANSparkMax(Constants.armMotorID, MotorType.kBrushless);
+    armPID = armMotor.getPIDController();
+    armEncoder = armMotor.getEncoder(EncoderType.kHallSensor, 42);
+    armPID.setP(Constants.DRIVE_P);
+    armPID.setI(Constants.DRIVE_I);
+    armPID.setD(Constants.DRIVE_D);
+    armPID.setIZone(Constants.DRIVE_IZ);
+    armPID.setFF(Constants.DRIVE_FF);
+    armPID.setOutputRange(Constants.DRIVE_MIN_OUTPUT, Constants.DRIVE_MAX_OUTPUT);
 
-    lifterMotor.setSmartCurrentLimit(Constants.DRIVE_MAX_CURRENT_STALL, Constants.DRIVE_MAX_CURRENT_RUN);
+    armMotor.setSmartCurrentLimit(Constants.DRIVE_MAX_CURRENT_STALL, Constants.DRIVE_MAX_CURRENT_RUN);
 
     winchMotor = new CANSparkMax(Constants.winchMotorID, MotorType.kBrushless);
     winchPID = winchMotor.getPIDController();
@@ -57,10 +57,10 @@ public class LifterWinch extends SubsystemBase
     
     winchMotor.setSmartCurrentLimit(Constants.DRIVE_MAX_CURRENT_STALL, Constants.DRIVE_MAX_CURRENT_RUN);
 
-    lifterEncoder = lifterMotor.getEncoder();
+    armEncoder = armMotor.getEncoder();
     // for the Neo 550 motor built in encoder we need to do the external gear reductions math in the setPositionConversionFactor
     // 10 to 1 for the height conversion (Not Included in Math) and 10 to 1 for the gearbox on the motor.
-    lifterEncoder.setPositionConversionFactor(2 * Math.PI / 10);  // encoder will return radians
+    armEncoder.setPositionConversionFactor(2 * Math.PI / 10);  // encoder will return radians
     }
     
   //TODO: set to go by position rather than speed, as well as correct encoder count.
@@ -68,13 +68,13 @@ public class LifterWinch extends SubsystemBase
   public void sendUpLifter()
   {
     //Lifter Motor must rotate 400 times to go 4 inches on lead screw, and 40 inches in height.
-    lifterPID.setReference(400, ControlType.kPosition);
+    armPID.setReference(400, ControlType.kPosition);
   }
 
   public void liftUpRobot()
   {
     //Winch goes to max retraction of cable and lifter arm comes all the way back to the limit switch. 
-    lifterPID.setReference(400, ControlType.kPosition);
+    armPID.setReference(400, ControlType.kPosition);
     winchPID.setReference(400, ControlType.kPosition);
   }
 

@@ -1,13 +1,14 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* Copyright (c) 2017-2018 FIRST. All Rights Reserved. */
+/* Open Source Software - may be modified and shared by FRC teams. The code */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
+/* the project. */
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -15,16 +16,17 @@ import edu.wpi.first.wpilibj.Joystick;
  */
 public class IO 
 {
-
-    public static Joystick driver = new Joystick(0);
-    public static Joystick manipulator = new Joystick(1);
+    public static  XboxController driver = new XboxController(0);
+//    public static Joystick driver = new Joystick(0);
+//    public static Joystick manipulator = new Joystick(1);
+    public static  XboxController manipulator = new XboxController(1);
 
     /**
      * @return the horizontal axis value from the left driver controller
      */
     public double getDriverLeftX()
     {
-        return deadbandFilter(driver.getX(), 0.1);
+        return deadbandFilter(driver.getX(Hand.kLeft), 0.1);
     }
 
     /**
@@ -32,7 +34,7 @@ public class IO
      */
     public double getDriverLeftY()
     {
-        return deadbandFilter(driver.getY(), 0.1);
+        return deadbandFilter(driver.getY(Hand.kLeft), 0.1);
     }
 
     /**
@@ -40,7 +42,7 @@ public class IO
      */
     public double getDriverRightX()
     {
-        return deadbandFilter(driver.getRawAxis(4), 0.1); 
+        return deadbandFilter(driver.getX(Hand.kRight), 0.1); 
     }
 
     /**
@@ -48,7 +50,7 @@ public class IO
      */
     public double getDriverRightY()
     {
-        return deadbandFilter(driver.getRawAxis(5), 0.1); 
+        return deadbandFilter(driver.getY(Hand.kRight), 0.1); 
     }
 
 
@@ -87,42 +89,36 @@ public class IO
     {
         return getExponential(getDriverRightY(), exponent);
     }
+
+    // public boolean getButtonAPressedDriver()
+    // {
+    //     return driver.getRawButton(1);
+    // }
+
+    // public boolean getButtonBPressedDriver()
+    // {
+    //     return driver.getRawButton(2);
+    // }
     
-    private double deadbandFilter(double value, double deadband)
-    {
-        return Math.abs(value) > deadband ? value : 0;
-    }
+    // public boolean getButtonXPressedDriver()
+    // {
+    //     return driver.getRawButton(3);
+    // }
 
+    // public boolean getButtonYPressedDriver()
+    // {
+    //     return driver.getRawButton(4);
+    // }
 
-    public boolean getButtonAPressedDriver()
-    {
-        return driver.getRawButton(1);
-    }
+    // public boolean getButtonLBumperPressedDriver()
+    // {
+    //     return driver.getRawButton(5);
+    // }
 
-    public boolean getButtonBPressedDriver()
-    {
-        return driver.getRawButton(2);
-    }
-    
-    public boolean getButtonXPressedDriver()
-    {
-        return driver.getRawButton(3);
-    }
-
-    public boolean getButtonYPressedDriver()
-    {
-        return driver.getRawButton(4);
-    }
-
-    public boolean getButtonLBumperPressedDriver()
-    {
-        return driver.getRawButton(5);
-    }
-
-    public boolean getButtonRBumperPressedDriver()
-    {
-        return driver.getRawButton(6);
-    }
+    // public boolean getButtonRBumperPressedDriver()
+    // {
+    //     return driver.getRawButton(6);
+    // }
 
     
     /**
@@ -130,7 +126,7 @@ public class IO
      */
     public double getManipulatorLeftX()
     {
-        return deadbandFilter(manipulator.getX(), 0.1);
+        return deadbandFilter(manipulator.getX(Hand.kLeft), 0.1);
     }
 
     /**
@@ -138,7 +134,7 @@ public class IO
      */
     public double getManipulatorLeftY()
     {
-        return deadbandFilter(manipulator.getY(), 0.1);
+        return deadbandFilter(manipulator.getY(Hand.kLeft), 0.1);
     }
 
     /**
@@ -146,7 +142,7 @@ public class IO
      */
     public double getManipulatorRightX()
     {
-        return deadbandFilter(manipulator.getRawAxis(4), 0.1); 
+        return deadbandFilter(manipulator.getX(Hand.kRight), 0.1); 
     }
 
     /**
@@ -154,38 +150,44 @@ public class IO
      */
     public double getManipulatorRightY()
     {
-        return deadbandFilter(manipulator.getRawAxis(5), 0.1); 
+        return deadbandFilter(manipulator.getY(Hand.kRight), 0.1); 
     }
 
 
-    public boolean getButtonAPressedManipulator()
-    {
-        return manipulator.getRawButton(1);
-    }
+    // public boolean getButtonAPressedManipulator()
+    // {
+    //     return manipulator.getRawButton(1);
+    // }
 
-    public boolean getButtonBPressedManipulator()
-    {
-        return manipulator.getRawButton(2);
-    }
+    // public boolean getButtonBPressedManipulator()
+    // {
+    //     return manipulator.getRawButton(2);
+    // }
     
-    public boolean getButtonXPressedManipulator()
-    {
-        return manipulator.getRawButton(3);
-    }
+    // public boolean getButtonXPressedManipulator()
+    // {
+    //     return manipulator.getRawButton(3);
+    // }
 
-    public boolean getButtonYPressedManipulator()
-    {
-        return manipulator.getRawButton(4);
-    }
+    // public boolean getButtonYPressedManipulator()
+    // {
+    //     return manipulator.getRawButton(4);
+    // }
 
-    public boolean getButtonLBumperPressedManipulator()
-    {
-        return manipulator.getRawButton(5);
-    }
+    // public boolean getButtonLBumperPressedManipulator()
+    // {
+    //     return manipulator.getRawButton(5);
+    // }
 
-    public boolean getButtonRBumperPressedManipulator()
+    // public boolean getButtonRBumperPressedManipulator()
+    // {
+    //     return manipulator.getRawButton(6);
+    // }
+
+    
+    private double deadbandFilter(double value, double deadband)
     {
-        return manipulator.getRawButton(6);
+        return Math.abs(value) > deadband ? value : 0;
     }
 
     /**
@@ -202,6 +204,5 @@ public class IO
 
         return stickOutput;
     }
-
 
 }

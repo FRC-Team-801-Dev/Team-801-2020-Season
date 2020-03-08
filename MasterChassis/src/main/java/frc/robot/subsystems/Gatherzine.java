@@ -9,7 +9,6 @@ package frc.robot.subsystems;
 
 import frc.robot.Constants;
 
-
 import com.revrobotics.CANEncoder;
 
 import com.revrobotics.CANSparkMax;
@@ -25,7 +24,6 @@ public class Gatherzine extends SubsystemBase
   
   private CANSparkMax magazineMotor;
   private CANEncoder magazineEncoder;
-  
   
   /**
    * Creates a new Gatherer and magazine combination.

@@ -10,34 +10,44 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 
-public class DriveWithJoysticks extends CommandBase {
-  
-  /**
-   * Creates a new DriveWithJoysticks.
-   */
-  public DriveWithJoysticks() {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.chassis);
-  }
+public class DriveWithJoysticks extends CommandBase
+{
+    /**
+     * Creates a new DriveWithJoysticks.
+     */
+    public DriveWithJoysticks()
+    {
+        // Use addRequirements() here to declare subsystem dependencies.
+        addRequirements(RobotContainer.chassis);
+    }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-  }
+    // Called when the command is initially scheduled.
+    @Override
+    public void initialize()
+    {
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-  }
+    }
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-  }
+    // Called every time the scheduler runs while the command is scheduled.
+    @Override
+    public void execute()
+    {
+        RobotContainer.chassis.drive(RobotContainer.io.getDriverExpoLeftX(2.5),
+                                    -RobotContainer.io.getDriverExpoLeftY(2.5),
+                                    -RobotContainer.io.getDriverExpoRightX(2.5));
+    }
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+    // Called once the command ends or is interrupted.
+    @Override
+    public void end(boolean interrupted)
+    {
+
+    }
+
+    // Returns true when the command should end.
+    @Override
+    public boolean isFinished()
+    {
+        return false;
+    }
 }

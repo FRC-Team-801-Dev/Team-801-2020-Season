@@ -176,8 +176,8 @@ public class Chassis extends SubsystemBase
         }
         // get magnitude and direction for the roatation.
         vTheta = IMUAngleProcessing();
-
-        // System.out.printf("vTheta: %.4f \n", vTheta);
+    
+        //System.out.printf("vTheta: %.4f \n" , vTheta);
 
         // PID controls the vTheta input to the wheel power equation.
         // vTheta = headingPID.getOutput(currentHeading, desiredHeading );
@@ -335,8 +335,8 @@ public class Chassis extends SubsystemBase
         }
         // get magnitude and direction for the roatation.
         vTheta = IMUAngleProcessing();
-
-        // System.out.printf("vTheta: %.4f \n", vTheta);
+    
+        // System.out.printf("vTheta: %.4f \n" , vTheta);
 
         // PID controls the vTheta input to the wheel power equation.
         // vTheta = headingPID.getOutput(currentHeading, desiredHeading );

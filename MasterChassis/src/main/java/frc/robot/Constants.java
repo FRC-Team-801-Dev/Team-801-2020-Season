@@ -81,17 +81,17 @@ public final class Constants
     public static double ROBOT_WIDTH = 20.75; // inches
 
     //Manipulator Neo Motor IDs
-    public static int GATHER_MOTOR_ID = 0;      // 550 mini-NEO
-    public static int MAGAZINE_MOTOR_ID = 0;    // 550 mini-NEO
+    public static int GATHER_MOTOR_ID = 11;      // 550 mini-NEO
+    public static int MAGAZINE_MOTOR_ID = 7;    // 550 mini-NEO
     
-    public static int terretMotorID = 0;        // 550 mini-NEO
+    public static int terretMotorID = 3;        // 550 mini-NEO
 
-    public static int shooterMotorID = 0;       // NEO
-    public static int breachMotorID = 0;        // 550 mini-NEO
+    public static int shooterMotorID = 2;       // NEO
+    public static int breachMotorID = 6;        // 550 mini-NEO
 
-    public static int lifterMotorID = 0;        // 550 mini-NEO
-    public static int winchMotorID = 0;         // NEO 
+    public static int armMotorID = 10;           // 550 mini-NEO
+    public static int winchMotorID = 15;         // NEO 
 
-    public static int colorWheelMotorID = 0;    // 550 mini-NEO 
+    public static int colorWheelMotorID = 14;     // 550 mini-NEO 
     
 }

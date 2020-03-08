@@ -29,7 +29,7 @@ public class ColorWheel extends SubsystemBase
    */
   public ColorWheel() 
   {
-    spinnerMotor = new CANSparkMax(Constants.lifterMotorID, MotorType.kBrushless);
+    spinnerMotor = new CANSparkMax(Constants.colorWheelMotorID, MotorType.kBrushless);
     spinnerPID = spinnerMotor.getPIDController();
     spinnerEncoder = spinnerMotor.getEncoder(EncoderType.kHallSensor, 42);
     spinnerPID.setP(Constants.DRIVE_P);

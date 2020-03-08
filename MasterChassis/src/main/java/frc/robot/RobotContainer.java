@@ -1,8 +1,8 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* Copyright (c) 2018-2019 FIRST. All Rights Reserved. */
+/* Open Source Software - may be modified and shared by FRC teams. The code */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
+/* the project. */
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
@@ -13,9 +13,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Chassis;
+import frc.robot.subsystems.ColorWheel;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Gatherzine;
-import frc.robot.subsystems.LifterWinch;
+import frc.robot.subsystems.ArmWinch;
 import frc.robot.subsystems.Shooter;
 
 /**
@@ -31,8 +32,9 @@ public class RobotContainer
     
     public static Chassis chassis;
     public static Gatherzine gatherzine;
-    public static LifterWinch lifterWinch;
+    public static ArmWinch armWinch;
     public static Shooter shooter;
+    public static ColorWheel colorWheel;
 
     private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
@@ -50,8 +52,9 @@ public class RobotContainer
         // Initialize the subsystems
         chassis = new Chassis();
         gatherzine = new Gatherzine();
-        lifterWinch = new LifterWinch();
+        armWinch = new ArmWinch();
         shooter = new Shooter();
+        colorWheel = new ColorWheel();
 
         // Set the default commands for each subsystem
         chassis.setDefaultCommand(new DriveWithJoysticks());
@@ -68,6 +71,8 @@ public class RobotContainer
      */
     private void configureButtonBindings()
     {
+        
+
 
     }
 

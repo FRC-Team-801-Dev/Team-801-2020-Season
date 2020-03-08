@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Stand;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.ExampleCommand;
 
 
@@ -40,6 +41,7 @@ public class RobotContainer
         io = new IO();
 
         stand = new Stand();
+        stand.setDefaultCommand(new DriveWithJoysticks());
 
         // Configure the button bindings
         configureButtonBindings();

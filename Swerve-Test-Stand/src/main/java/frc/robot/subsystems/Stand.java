@@ -46,7 +46,6 @@ public class Stand extends SubsystemBase
 
     public Stand()
     {
-      this.setDefaultCommand(new DriveWithJoysticks());
 
     pod = new SwervePod(Constants.DRIVE_POD_ID, Constants.TURN_POD_ID, 0);
     //averageHeading = new RollingAverage(3);

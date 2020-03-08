@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -28,9 +29,9 @@ public class RobotContainer
 
     public static IO io;
     
-    public static Chassis chassis = new Chassis();
-    public static Gatherzine gatherzine = new Gatherzine();
-    public static LifterWinch lifterWinch = new LifterWinch();
+    public static Chassis chassis;
+    public static Gatherzine gatherzine;
+    public static LifterWinch lifterWinch;
     public static Shooter shooter;
 
     private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
@@ -43,7 +44,17 @@ public class RobotContainer
     public RobotContainer()
     {
 
+        // Initialize controller input
         io = new IO();
+
+        // Initialize the subsystems
+        chassis = new Chassis();
+        gatherzine = new Gatherzine();
+        lifterWinch = new LifterWinch();
+        shooter = new Shooter();
+
+        // Set the default commands for each subsystem
+        chassis.setDefaultCommand(new DriveWithJoysticks());
         
         // Configure the button bindings
         configureButtonBindings();

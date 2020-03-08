@@ -30,9 +30,9 @@ public class Shooter extends SubsystemBase
   /**
    * Creates a new Shooter.
    */
-  public Shooter(int shooterMotorID, int breachMotorID) 
+  public Shooter() 
   {
-    shooterMotor = new CANSparkMax(shooterMotorID, MotorType.kBrushless);
+    shooterMotor = new CANSparkMax(Constants.shooterMotorID, MotorType.kBrushless);
     shooterPID = shooterMotor.getPIDController();
     shooterEncoder = shooterMotor.getEncoder();
     shooterPID.setP(Constants.DRIVE_P);
@@ -44,7 +44,7 @@ public class Shooter extends SubsystemBase
 
     shooterMotor.setSmartCurrentLimit(Constants.DRIVE_MAX_CURRENT_STALL, Constants.DRIVE_MAX_CURRENT_RUN);
 
-    breachMotor = new CANSparkMax(breachMotorID, MotorType.kBrushless);
+    breachMotor = new CANSparkMax(Constants.breachMotorID, MotorType.kBrushless);
     breachPID = breachMotor.getPIDController();
     breachEncoder = breachMotor.getEncoder();
     breachPID.setP(Constants.DRIVE_P);

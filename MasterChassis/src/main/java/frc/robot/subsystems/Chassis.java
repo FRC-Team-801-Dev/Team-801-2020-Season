@@ -92,8 +92,6 @@ public class Chassis extends SubsystemBase
     public Chassis()
     {
 
-        this.setDefaultCommand(new DriveWithJoysticks());
-
         for (SwervePod pod : pods)
         {
             pod.zeroEncoder();

@@ -14,40 +14,36 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Gatherzine extends SubsystemBase 
+public class Gatherzine extends SubsystemBase
 {
-  private CANSparkMax gatherMotor;
-  private CANEncoder gatherEncoder;
-  
-  private CANSparkMax magazineMotor;
-  private CANEncoder magazineEncoder;
-  
-  /**
-   * Creates a new Gatherer and magazine combination.
-   * 
-   */
-  public Gatherzine() 
-  {
-    gatherMotor = new CANSparkMax(Constants.gatherMotorID, MotorType.kBrushless);
-    gatherEncoder = gatherMotor.getEncoder();
-    gatherMotor.setSmartCurrentLimit(Constants.DRIVE_MAX_CURRENT_STALL, Constants.DRIVE_MAX_CURRENT_RUN);
-    
-    magazineMotor = new CANSparkMax(Constants.magazineMotorID, MotorType.kBrushless);
-    magazineEncoder = magazineMotor.getEncoder();
-    magazineMotor.setSmartCurrentLimit(Constants.DRIVE_MAX_CURRENT_STALL, Constants.DRIVE_MAX_CURRENT_RUN);
-  }
-  
-  public void gather()
-  {
+    private CANSparkMax gatherMotor;
+    private CANEncoder gatherEncoder;
 
-  }
+    private CANSparkMax magazineMotor;
+    private CANEncoder magazineEncoder;
 
-  @Override
-  public void periodic() 
-  {
-    // This method will be called once per scheduler run
-  }
+    /**
+     * Creates a new Gatherer and magazine combination.
+     * 
+     */
+    public Gatherzine() 
+    {
+
+
+
+        gatherMotor = new CANSparkMax(Constants.gatherMotorID, MotorType.kBrushless);
+        gatherEncoder = gatherMotor.getEncoder();
+        gatherMotor.setSmartCurrentLimit(Constants.DRIVE_MAX_CURRENT_STALL, Constants.DRIVE_MAX_CURRENT_RUN);
+
+        magazineMotor = new CANSparkMax(Constants.magazineMotorID, MotorType.kBrushless);
+        magazineEncoder = magazineMotor.getEncoder();
+        magazineMotor.setSmartCurrentLimit(Constants.DRIVE_MAX_CURRENT_STALL, Constants.DRIVE_MAX_CURRENT_RUN);
+    }
+
+    public void gather()
+    {
+
+    }
 }

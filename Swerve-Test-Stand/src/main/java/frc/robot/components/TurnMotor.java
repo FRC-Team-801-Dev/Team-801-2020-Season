@@ -6,7 +6,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.EncoderType;
 import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import edu.wpi.first.wpilibj.DigitalInput;
+//import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants;
 import frc.robot.utilities.*;
 
@@ -21,7 +21,7 @@ public class TurnMotor
   //private CANPIDController sparkPID;
   private CANSparkMax sparkMotor;
   private CANEncoder sparkEncoder;
-  private DigitalInput zeroAngleInput;
+//
   private PID anglePID = null;
 
   private CANDigitalInput m_forwardLimit;
@@ -38,7 +38,7 @@ public class TurnMotor
   public TurnMotor(int motorID, int motorIndex)
   {
       sparkMotor = new CANSparkMax(motorID, MotorType.kBrushless);
-      zeroAngleInput = new DigitalInput(Constants.TURN_ZERO_IO_PORT); 
+//      zeroAngleInput = new DigitalInput(Constants.TURN_ZERO_IO_PORT); 
       sparkEncoder = sparkMotor.getEncoder(EncoderType.kHallSensor, 42);
       // sparkEncoder = sparkMotor.getEncoder(EncoderType.kQuadrature, 4096 * 6);
       // sparkEncoder = sparkMotor.getEncoder(EncoderType.kQuadrature, 8192 * 6);
@@ -135,18 +135,19 @@ public class TurnMotor
   public void resetEncoder()
   {
     isCalibrated = false;
-    System.out.printf("Encoder: %.4f \n", sparkEncoder.getPosition());
+    //System.out.printf("Encoder: %.4f \n", sparkEncoder.getPosition());
   }
 
   public void calibrateAngle()
   {  
 
     m_forwardLimit.enableLimitSwitch(true);
-    //System.out.printf("StartEncoder: %.4f \n", sparkEncoder.getPosition());
+
     while(!m_forwardLimit.get())
     {
-      sparkMotor.set(0.2);
+      sparkMotor.set(0.15);
     }
+    
     sparkMotor.set(0.0);
     //System.out.printf("PinEncoder: %.4f \n", sparkEncoder.getPosition());
     calOffset = sparkEncoder.getPosition() - POD_CAL_OFFSET;

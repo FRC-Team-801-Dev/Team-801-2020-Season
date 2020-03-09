@@ -11,12 +11,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
-public class ArmLow extends CommandBase 
+public class ArmHigh extends CommandBase 
 {
   /**
    * Creates a new Shoot.
    */
-  public ArmLow() 
+  public ArmHigh() 
   {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.arm);
@@ -26,7 +26,7 @@ public class ArmLow extends CommandBase
   @Override
   public void initialize() 
   {
-    RobotContainer.arm.sendArmHeight(Constants.ARM_POSITION_LOW);
+    RobotContainer.arm.sendArmHeight(Constants.ARM_POSITION_HIGH);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

@@ -12,14 +12,18 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ArmDown;
+import frc.robot.commands.ArmHigh;
 import frc.robot.commands.ArmLow;
+import frc.robot.commands.ArmMid;
 import frc.robot.commands.DriveWithJoysticks;
+import frc.robot.commands.WinchUp;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.ColorWheel;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Gatherzine;
-import frc.robot.subsystems.ArmWinch;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Winch;
 import frc.robot.subsystems.Shooter;
 
 /**
@@ -30,12 +34,12 @@ import frc.robot.subsystems.Shooter;
  */
 public class RobotContainer
 {
-
     public static IO io;
     
     public static Chassis chassis;
     public static Gatherzine gatherzine;
-    public static ArmWinch armWinch;
+    public static Arm arm;
+    public static Winch winch;
     public static Shooter shooter;
     public static ColorWheel colorWheel;
 
@@ -55,12 +59,14 @@ public class RobotContainer
         // Initialize the subsystems
         chassis = new Chassis();
         gatherzine = new Gatherzine();
-        armWinch = new ArmWinch();
+        arm = new Arm();
+        winch = new Winch();
         shooter = new Shooter();
         colorWheel = new ColorWheel();
 
         // Set the default commands for each subsystem
         chassis.setDefaultCommand(new DriveWithJoysticks());
+        winch.setDefaultCommand(new WinchUp());
         
         // Configure the button bindings
         configureButtonBindings();
@@ -79,6 +85,15 @@ public class RobotContainer
 
         JoystickButton armLowButton = new JoystickButton (IO.driver, XboxController.Button.kA.value);
         armLowButton.whenPressed(new ArmLow()); 
+
+        JoystickButton armMidButton = new JoystickButton (IO.driver, XboxController.Button.kB.value);
+        armMidButton.whenPressed(new ArmMid()); 
+
+        JoystickButton armHighButton = new JoystickButton (IO.driver, XboxController.Button.kY.value);
+        armHighButton.whenPressed(new ArmHigh()); 
+
+        
+        
 
     }
 

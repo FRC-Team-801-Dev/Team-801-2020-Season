@@ -10,27 +10,29 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 
-public class ArmDown extends CommandBase {
+public class ArmDown extends CommandBase 
+{
   /**
-   * Creates a new Shoot.
+   * Command to lower the arm to the home position and reset the encoder.
    */
   public ArmDown() 
   {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.armWinch);
+    addRequirements(RobotContainer.arm);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() 
   {
-    RobotContainer.armWinch.resetArm();
+    RobotContainer.arm.resetArm();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() 
   {
+    RobotContainer.arm.armResetting();
   }
 
   // Called once the command ends or is interrupted.
@@ -43,6 +45,6 @@ public class ArmDown extends CommandBase {
   @Override
   public boolean isFinished() 
   {
-    return false;
+    return RobotContainer.arm.getArmZeroedFlag();
   }
 }

@@ -38,6 +38,7 @@ public final class Constants
     public static int TURN_MAX_CURRENT_STALL = 30;
     public static int TURN_MAX_CURRENT_RUN = 20;
 
+
     public static double ARM_P = 0.01;
     public static double ARM_I = 0.0;
     public static double ARM_D = 0.0;
@@ -53,11 +54,10 @@ public final class Constants
 
     public static double ARM_POSITION_LOW = 20;
     public static double ARM_POSITION_MID = 25;
-    public static double ARM_POSITION_HI  = 30;
+    public static double ARM_POSITION_HIGH = 30;
     public static double ARM_POSITION_RESET = -50;
-       
-
-
+ 
+    
     public static double WINCH_P = 0.0005;
     public static double WINCH_I = 0.0;
     public static double WINCH_D = 0.0;
@@ -72,7 +72,6 @@ public final class Constants
     public static int WINCH_MAX_CURRENT_RUN = 30;
 
 
-
     public static double GATHER_P = 0.01;
     public static double GATHER_I = 0;
     public static double GATHER_D = 0;
@@ -83,6 +82,7 @@ public final class Constants
     public static int GATHER_STALL_CURRENT = 19; // 20 amp fuse
     public static int GATHER_FREE_CURRENT = 19;
 
+    
     public static double MAGAZINE_P = 0.01;
     public static double MAGAZINE_I = 0;
     public static double MAGAZINE_D = 0;

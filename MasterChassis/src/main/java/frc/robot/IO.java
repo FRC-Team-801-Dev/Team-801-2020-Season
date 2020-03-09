@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
-public class IO 
+public class IO
 {
     public static  XboxController driver = new XboxController(0);
 //    public static Joystick driver = new Joystick(0);

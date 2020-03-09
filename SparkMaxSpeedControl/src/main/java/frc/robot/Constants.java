@@ -4,7 +4,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 
 public final class Constants
 {
-    public static double DRIVE_P = 0.0;
+    public static double DRIVE_P = 0.001;
     public static double DRIVE_I = 0.0;
     public static double DRIVE_D = 0.0;
     public static double DRIVE_IZ = 0.0;

@@ -7,16 +7,7 @@
 
 package frc.robot;
 
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardContainer;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardComponent;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.MotorController;
 
 /**
@@ -28,18 +19,16 @@ import frc.robot.subsystems.MotorController;
 public class RobotContainer
 {
 
-    private final MotorController m_MotorController = new MotorController();
-
-    private final ExampleCommand m_autoCommand = new ExampleCommand(m_MotorController);
-
-
-
+    private static MotorController motorController;
 
     /**
      * The container for the robot.  Contains subsystems, OI devices, and commands.
      */
     public RobotContainer()
     {
+
+        motorController = new MotorController();
+
         // Configure the button bindings
         configureButtonBindings();
     }
@@ -53,17 +42,5 @@ public class RobotContainer
     private void configureButtonBindings()
     {
 
-    }
-
-
-    /**
-     * Use this to pass the autonomous command to the main {@link Robot} class.
-     *
-     * @return the command to run in autonomous
-     */
-    public Command getAutonomousCommand()
-    {
-        // An ExampleCommand will run in autonomous
-        return m_autoCommand;
     }
 }

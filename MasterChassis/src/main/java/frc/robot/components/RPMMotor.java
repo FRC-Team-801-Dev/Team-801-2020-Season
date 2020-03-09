@@ -4,14 +4,11 @@ package frc.robot.components;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
-import edu.wpi.first.networktables.NetworkTableEntry;
-
+import com.revrobotics.ControlType;
 import frc.robot.Constants;
 
-public class DriveMotor
+public class RPMMotor
 {
 
     private double currentRPM = 0.0;
@@ -26,20 +23,41 @@ public class DriveMotor
      * @param motorID of the Spark Max
      * @param motorIndex of the motor index
      */
-    public DriveMotor(int motorID)
+    public RPMMotor(int motorID)
     {
         sparkMotor = new CANSparkMax(motorID, MotorType.kBrushless);
         sparkPID = sparkMotor.getPIDController();
         sparkEncoder = sparkMotor.getEncoder();
+    }
 
-        sparkPID.setP(Constants.DRIVE_P);
-        sparkPID.setI(Constants.DRIVE_I);
-        sparkPID.setD(Constants.DRIVE_D);
-        sparkPID.setIZone(Constants.DRIVE_IZ);
-        sparkPID.setFF(Constants.DRIVE_FF);
-        sparkPID.setOutputRange(Constants.DRIVE_MIN_OUTPUT, Constants.DRIVE_MAX_OUTPUT);
+    /**
+     * A method to initialize the PID
+     * @param P
+     * @param I
+     * @param D
+     * @param IZ
+     * @param FF
+     * @param minOutput
+     * @param maxOutput
+     */
+    public void setPIDConstants(double P, double I, double D, double IZ, double FF, double minOutput, double maxOutput)
+    {
+        sparkPID.setP(P);
+        sparkPID.setI(I);
+        sparkPID.setD(D);
+        sparkPID.setIZone(IZ);
+        sparkPID.setFF(FF);
+        sparkPID.setOutputRange(minOutput, maxOutput);
+    }
 
-        sparkMotor.setSmartCurrentLimit(Constants.DRIVE_MAX_CURRENT_STALL, Constants.DRIVE_MAX_CURRENT_RUN);
+    /**
+     * Configures the all-important current limits for the motors
+     * @param stallCurrent
+     * @param freeCurrent
+     */
+    public void setCurrentLimits(int stallCurrent, int freeCurrent)
+    {
+        sparkMotor.setSmartCurrentLimit(stallCurrent, freeCurrent);
     }
 
      /**

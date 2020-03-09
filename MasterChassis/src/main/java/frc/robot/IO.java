@@ -90,37 +90,7 @@ public class IO
         return getExponential(getDriverRightY(), exponent);
     }
 
-    // public boolean getButtonAPressedDriver()
-    // {
-    //     return driver.getRawButton(1);
-    // }
-
-    // public boolean getButtonBPressedDriver()
-    // {
-    //     return driver.getRawButton(2);
-    // }
-    
-    // public boolean getButtonXPressedDriver()
-    // {
-    //     return driver.getRawButton(3);
-    // }
-
-    // public boolean getButtonYPressedDriver()
-    // {
-    //     return driver.getRawButton(4);
-    // }
-
-    // public boolean getButtonLBumperPressedDriver()
-    // {
-    //     return driver.getRawButton(5);
-    // }
-
-    // public boolean getButtonRBumperPressedDriver()
-    // {
-    //     return driver.getRawButton(6);
-    // }
-
-    
+  
     /**
      * @return the horizontal axis value from the left driver controller
      */
@@ -152,44 +122,13 @@ public class IO
     {
         return deadbandFilter(manipulator.getY(Hand.kRight), 0.1); 
     }
-
-
-    // public boolean getButtonAPressedManipulator()
-    // {
-    //     return manipulator.getRawButton(1);
-    // }
-
-    // public boolean getButtonBPressedManipulator()
-    // {
-    //     return manipulator.getRawButton(2);
-    // }
-    
-    // public boolean getButtonXPressedManipulator()
-    // {
-    //     return manipulator.getRawButton(3);
-    // }
-
-    // public boolean getButtonYPressedManipulator()
-    // {
-    //     return manipulator.getRawButton(4);
-    // }
-
-    // public boolean getButtonLBumperPressedManipulator()
-    // {
-    //     return manipulator.getRawButton(5);
-    // }
-
-    // public boolean getButtonRBumperPressedManipulator()
-    // {
-    //     return manipulator.getRawButton(6);
-    // }
-
-    
+   
     private double deadbandFilter(double value, double deadband)
     {
         return Math.abs(value) > deadband ? value : 0;
     }
 
+    
     /**
      * This function takes a joystick input and applies an exponential scaling
      */

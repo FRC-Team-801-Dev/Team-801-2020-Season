@@ -47,7 +47,7 @@ public class DriveMotor
     public void setDesiredRPM(double rpm)
     {
         desiredRPM = rpm;
-        sparkPID.setReference(desiredRPM / 5, ControlType.kDutyCycle); //TODO Make go fast again... added /XX for safety
+        sparkPID.setReference(desiredRPM, ControlType.kDutyCycle); 
     }
 
     /**

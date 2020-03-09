@@ -35,9 +35,45 @@ public final class Constants
     public static int TURN_MAX_CURRENT_STALL = 30;
     public static int TURN_MAX_CURRENT_RUN = 20;
 
+    public static double ARM_P = 0.01;
+    public static double ARM_I = 0.0;
+    public static double ARM_D = 0.0;
+    public static double ARM_IZ = 0.0;
+    public static double ARM_FF = 0.000;
+    public static double ARM_MAX_OUTPUT = 1.0;
+    public static double ARM_MIN_OUTPUT = -1.0;
+    public static boolean ARM_INVERT = true; 
+    public static IdleMode ARM_IDLEMODE = IdleMode.kBrake;
+
+    public static int ARM_MAX_CURRENT_STALL = 30;
+    public static int ARM_MAX_CURRENT_RUN = 20;
+
+    public static double ARM_POSITION_LOW = 20;
+    public static double ARM_POSITION_MID = 25;
+    public static double ARM_POSITION_HI  = 30;
+    public static double ARM_POSITION_RESET = -50;
+       
+
+
+    public static double WINCH_P = 0.0005;
+    public static double WINCH_I = 0.0;
+    public static double WINCH_D = 0.0;
+    public static double WINCH_IZ = 0.0;
+    public static double WINCH_FF = 0.000;
+    public static double WINCH_MAX_OUTPUT = 1.0;
+    public static double WINCH_MIN_OUTPUT = -1.0;
+    public static boolean WINCH_INVERT = false; 
+    public static IdleMode WINCH_IDLEMODE = IdleMode.kBrake;
+
+    public static int WINCH_MAX_CURRENT_STALL = 40;
+    public static int WINCH_MAX_CURRENT_RUN = 30;
+
+
+
+
     // Swerve Pod Motor CAN IDs
-    public static int POD_1_DRIVE = 13;       // NEO
-    public static int POD_1_TURN = 9;         // 550 mini-NEO
+    public static int POD_1_DRIVE = 0;  //13;       // NEO
+    public static int POD_1_TURN = 0; //9;         // 550 mini-NEO
 
     public static int POD_2_DRIVE = 4;        // NEO
     public static int POD_2_TURN = 8;         // 550 mini-NEO
@@ -61,12 +97,12 @@ public final class Constants
     public static int gatherMotorID = 11;        // 550 mini-NEO
     public static int magazineMotorID = 7;      // 550 mini-NEO
     
-    public static int terretMotorID = 3;        // 550 mini-NEO
+    public static int turretMotorID = 3;        // 550 mini-NEO
 
     public static int shooterMotorID = 2;       // NEO
     public static int breachMotorID = 6;        // 550 mini-NEO
 
-    public static int armMotorID = 10;           // 550 mini-NEO
+    public static int armMotorID = 9; //10;           // 550 mini-NEO
     public static int winchMotorID = 15;         // NEO 
 
     public static int colorWheelMotorID = 14;     // 550 mini-NEO 

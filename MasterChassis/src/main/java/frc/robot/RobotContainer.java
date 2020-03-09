@@ -10,6 +10,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.ArmDown;
+import frc.robot.commands.ArmLow;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Chassis;
@@ -71,8 +74,11 @@ public class RobotContainer
      */
     private void configureButtonBindings()
     {
-        
+        JoystickButton armStowButton = new JoystickButton (IO.driver, XboxController.Button.kX.value);
+        armStowButton.whenPressed(new ArmDown());
 
+        JoystickButton armLowButton = new JoystickButton (IO.driver, XboxController.Button.kA.value);
+        armLowButton.whenPressed(new ArmLow()); 
 
     }
 

@@ -10,11 +10,11 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 
-public class ArmMovement extends CommandBase {
+public class ArmDown extends CommandBase {
   /**
    * Creates a new Shoot.
    */
-  public ArmMovement() 
+  public ArmDown() 
   {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.armWinch);
@@ -24,6 +24,7 @@ public class ArmMovement extends CommandBase {
   @Override
   public void initialize() 
   {
+    RobotContainer.armWinch.resetArm();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

@@ -44,7 +44,7 @@ public class ColorWheel extends SubsystemBase
   
     // for the Neo 550 motor built in encoder we need to do the external gear reductions math in the setPositionConversionFactor
     // 8 to 1 for the drive wheel to color wheel and 10 to 1 for the for the gearbox on the motor. 80 motor rotations = 1 color wheel rotation
-    spinnerEncoder.setPositionConversionFactor(2 * Math.PI / 80);  // encoder will return radians
+    spinnerEncoder.setPositionConversionFactor(1);  // encoder will return radians
 
     }
     

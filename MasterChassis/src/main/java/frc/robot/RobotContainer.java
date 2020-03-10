@@ -18,12 +18,16 @@ import frc.robot.commands.ArmMid;
 import frc.robot.commands.AutonomousDriveBackward;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.WinchUp;
+import frc.robot.commands.ForwardGather;
+import frc.robot.commands.LoadOneBall;
+import frc.robot.commands.ReverseGather;
 import frc.robot.subsystems.Chassis;
-import frc.robot.subsystems.ColorWheel;
-import frc.robot.subsystems.Gatherzine;
+import frc.robot.subsystems.Gatherer;
+import frc.robot.subsystems.Magazine;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Winch;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.ColorWheel;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -36,7 +40,8 @@ public class RobotContainer
     public static final IO io = new IO();
     
     public static final Chassis chassis = new Chassis();
-    public static final Gatherzine gatherzine = new Gatherzine();
+    public static final Gatherer gatherer = new Gatherer();
+    public static final Magazine magazine = new Magazine();
     public static final Arm arm = new Arm();
     public static final Winch winch = new Winch();
     public static final Shooter shooter = new Shooter();
@@ -48,7 +53,7 @@ public class RobotContainer
      * The container for the robot.  Contains subsystems, OI devices, and commands.
      */
     public RobotContainer()
-    {        
+    {
         // Set the default commands for each subsystem
         winch.setDefaultCommand(new WinchUp());
         
@@ -78,9 +83,16 @@ public class RobotContainer
 
         
         
+        
+        JoystickButton fwdGatherButton = new JoystickButton(IO.driver, XboxController.Button.kBumperLeft.value);
+        JoystickButton revGatherButton = new JoystickButton(IO.driver, XboxController.Button.kBumperRight.value);
+        JoystickButton loadBallButton = new JoystickButton(IO.driver, XboxController.Button.kX.value);
 
+        fwdGatherButton.whileHeld(new ForwardGather());
+        revGatherButton.whileHeld(new ReverseGather());
+
+        loadBallButton.whenPressed(new LoadOneBall());
     }
-
 
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.

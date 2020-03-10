@@ -67,19 +67,8 @@ public class Chassis extends SubsystemBase
     private static double desiredHeading; // rotates about the Z axis [0,360) deg.
     private static double currentHeading; // rotates about the Z axis [0,360) deg.
 
-    // PID for the heading
-    private final double propCoeff = 0.1;
-    private final double integCoeff = 0.0;
-    private final double diffCoeff = 0.0;
-    private final double OutputLowLimit = -1;
-    private final double OutputHighLimit = 1;
-    private final double MaxIOutput = 1;
-    private final double OutputRampRate = 0.1;
-    private final double OutputFilter = 0;
-    private final double SetpointRange = 360;
-
     private final double headingThreshold = 0.05;
-    private final int headdingAverageNumberOfSamples = 5;
+    private final int headingAverageNumberOfSamples = 5;
 
     private PID headingPID;
     private RollingAverage averageHeading;
@@ -111,19 +100,19 @@ public class Chassis extends SubsystemBase
             DriverStation.reportError("Error instantiating navX-MXP:  " + ex.getMessage(), true);
         }
 
-        headingPID = new PID(propCoeff, integCoeff, diffCoeff);
-        averageHeading = new RollingAverage(headdingAverageNumberOfSamples);
+        headingPID = new PID(Constants.HEADING_P, Constants.HEADING_I, Constants.HEADING_D);
+        averageHeading = new RollingAverage(headingAverageNumberOfSamples);
 
         // set initial desired heading to the current actual heading.
         desiredHeading = currentHeading = gyro.getYaw();
 
         // initially setup the PID parameters
-        headingPID.setOutputLimits(OutputLowLimit, OutputHighLimit);
-        headingPID.setMaxIOutput(MaxIOutput);
-        headingPID.setOutputRampRate(OutputRampRate);
-        headingPID.setOutputFilter(OutputFilter);
+        headingPID.setOutputLimits(Constants.HEADING_OUTPUT_LIMIT_LOW, Constants.HEADING_OUTPUT_LIMIT_HIGH);
+        headingPID.setMaxIOutput(Constants.HEADING_MAX_I_OUT);
+        headingPID.setOutputRampRate(Constants.HEADING_OUTPUT_RAMPRATE);
+        headingPID.setOutputFilter(Constants.HEADING_OUTPUT_FILTER);
         headingPID.setAngleUnits(PID.AngleUnit.degrees);
-        headingPID.setSetpointRange(SetpointRange);
+        headingPID.setSetpointRange(Constants.HEADING_SETPOINT_RANGE);
         headingPID.setContinousInputRange(360);
         headingPID.setContinous(true); // lets PID know we are working with a continuous range
                                        // [0-360)

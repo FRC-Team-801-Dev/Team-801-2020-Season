@@ -138,10 +138,6 @@ public class Chassis extends SubsystemBase
 
     public void drive(double x, double y, double r)
     {
-        // double x_l = RobotContainer.io.getDriverExpoLeftX(2.5); // Translation X
-        // double y_l = -RobotContainer.io.getDriverExpoLeftY(2.5); // Translation Y
-        // double x_r = RobotContainer.io.getDriverExpoRightX(2.5); // Rotation (x)
-
         // if there is new joystick input update the heading otherwise hold the current
         // heading as
         // the setpoint.
@@ -186,14 +182,14 @@ public class Chassis extends SubsystemBase
         //
         // 20
         // ________________
-        // | |
-        // | |
-        // | |
-        // | |
-        // | | 24
-        // | |
-        // | |
-        // | |
+        // |              |
+        // |              |
+        // |              |
+        // |              |
+        // |              | 24
+        // |              |
+        // |              |
+        // |              |
         // ----------------
         // SEE Constants.java
 
@@ -280,156 +276,18 @@ public class Chassis extends SubsystemBase
         }
     }
 
+
     /**
      * This method will be called once per scheduler run in Autonomous
      */
 
-    public void autonomousPeriodic()
+    public void directionDrive(double speed, double angle)
     {
-        double x_l = 0;
-        double y_l = 0;
-        double x_r = error_x.getDouble(0);
-
-        // if there is new joystick input update the heading otherwise hold the current
-        // heading as
-        // the setpoint.
-        // headding is in radians so just using the +/- 1 from the joystick to add as a
-        // bias to the
-        // current angle will put the desired head +/- 57 degrees from current. This
-        // should be more
-        // than enough to move the bot at max rotation speed.
-        // The chasing of this setpoint is controled by the PID loop on the vTheta
-        // value.
-
-        averageHeading.add(x_r); // average in the current error
-
-        // if the averaged stick input is greater then the headingThreshold go ahead and
-        // adjust the heading.
-        // This keeps from updating the desiredHeading value if no joystick input is
-        // being made.
-        // Otherwise, it will always drive the desiredHeading to 0 (neutral joystick
-        // position)
-        if (Math.abs(averageHeading.getAverage()) > headingThreshold)
-        {
-            desiredHeading = currentHeading + averageHeading.getAverage();
-            // keep heading a positive angle
-            if (desiredHeading < 0)
-            {
-                desiredHeading += (360);
-            }
-        }
-        // get magnitude and direction for the roatation.
-        vTheta = IMUAngleProcessing();
-    
-        // System.out.printf("vTheta: %.4f \n" , vTheta);
-
-        // PID controls the vTheta input to the wheel power equation.
-        // vTheta = headingPID.getOutput(currentHeading, desiredHeading );
-
-        // Dimensions will change! What are the dimensions of the test chassis!
-        // Change in Constants.java
-        // Robot dimensions (example)
-        // Length = 24 in
-        // Width = 20 in
-        //
-        // 20
-        // ________________
-        // | |
-        // | |
-        // | |
-        // | |
-        // | | 24
-        // | |
-        // | |
-        // | |
-        // ----------------
-        // SEE Constants.java
-
-        // Angle from the center of the robot to the top right wheel
-        double thetaChassis = Utils.angle(Constants.ROBOT_LENGTH, Constants.ROBOT_WIDTH); // Gets
-                                                                                          // the
-                                                                                          // angle
-                                                                                          // created
-                                                                                          // from
-                                                                                          // the
-                                                                                          // center
-                                                                                          // of the
-                                                                                          // robot
-                                                                                          // to
-                                                                                          // the top
-                                                                                          // right
-                                                                                          // corner
-
-        double magnitude = Utils.limitRange(Utils.magnitude(x_l, y_l), 0, 1); // Magnitude of left
-                                                                              // joystick movement
-
-        double angle = Utils.normalizeAngle(Utils.angle(x_l, y_l) - Math.PI / 2); // Angle of left
-                                                                                  // joystick
-
-        double rotationMagnitude = vTheta; // Magnitude of right joystick sideways movement
-
-        // Angles of rotation of each wheel
-        // Each wheel needs to be perpendicular to the angle from the center to it
-        double[] rotationAngles = {thetaChassis - Math.PI / 2, // Angle for first wheel to turn the
-                                                               // robot clockwise
-                -thetaChassis - Math.PI / 2, // Angle for second wheel " " " " "
-                -thetaChassis + Math.PI / 2, // Angle for third wheel " " " " "
-                thetaChassis + Math.PI / 2 // Angle for fourth wheel " " " " "
-        };
-
-        double[] translationVector = {angle, magnitude}; // Vector that represents the translation
-                                                         // of the robot
-
-        // An array of vectors for each wheel for the wheel rotation
-        double[][] rotationVectors = new double[4][2];
-
-        // Create a rotation vector for wheel rotation for each one
-        for (int i = 0; i < 4; i++)
-        {
-            rotationVectors[i] = new double[] {rotationAngles[i], rotationMagnitude};
-        }
-
-        // An array of vectors for the final movement of each wheel
-        double[][] podVectors = new double[4][2];
-
-        // Add the translation and rotation vectors to get the final movement vector
-        for (int i = 0; i < 4; i++)
-        {
-            podVectors[i] = Utils.addVectors(translationVector, rotationVectors[i]);
-        }
-
-        double maxVectorMagnitude = 0;
-
-        for (int i = 0; i < 4; i++)
-        {
-            if (podVectors[i][1] > maxVectorMagnitude)
-            {
-                maxVectorMagnitude = podVectors[i][1];
-            }
-        }
-
-        if (maxVectorMagnitude > 1.0)
-        {
-            for (int i = 0; i < 4; i++)
-            {
-                podVectors[i][1] /= maxVectorMagnitude;
-            }
-        }
-
         // Loop through each swerve pod
         for (int i = 0; i < 4; i++)
         {
-            // If we are moving the sticks
-            if (magnitude != 0 || rotationMagnitude != 0)
-            {
-                // Set the angle and speed of each wheel according to the final vectors
-                pods[i].setDesiredAngle(podVectors[i][0]);
-                pods[i].setDesiredRPM(podVectors[i][1]);
-            }
-            else // If we are not moving the sticks, set the wheel speed to 0
-            {
-                pods[i].setDesiredRPM(0);
-            }
+            pods[i].setDesiredAngle(angle);
+            pods[i].setDesiredRPM(speed);
         }
 
         // Always call to process PID for turn motors
@@ -437,6 +295,36 @@ public class Chassis extends SubsystemBase
         {
             pod.processPod();
         }
+    }
+
+    public void stop()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            pods[i].setDesiredRPM(0);
+        }
+    }
+
+    /**
+     * 
+     * @return speed in ft/s
+     */
+    public double getSpeed()
+    {
+        double[] movement = new double[] {0, 0};
+        double[][] podForces = new double[][] {
+            {pod1.getCurrentAngle(), pod1.getCurrentRPM()},
+            {pod2.getCurrentAngle(), pod2.getCurrentRPM()},
+            {pod3.getCurrentAngle(), pod3.getCurrentRPM()},
+            {pod4.getCurrentAngle(), pod4.getCurrentRPM()}
+        };
+
+        for (int i = 0; i < podForces.length; i++)
+        {
+            movement = Utils.addVectors(movement, podForces[i]);
+        }
+
+        return movement[1] / 4;
     }
 
     /**

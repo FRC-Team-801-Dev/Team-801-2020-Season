@@ -32,9 +32,11 @@ public class DriveWithJoysticks extends CommandBase
     @Override
     public void execute()
     {
-        RobotContainer.chassis.drive(RobotContainer.io.getDriverExpoLeftX(2.5),
-                                    -RobotContainer.io.getDriverExpoLeftY(2.5),
-                                    -RobotContainer.io.getDriverExpoRightX(2.5));
+        RobotContainer.chassis.drive(
+            RobotContainer.io.getDriverExpoLeftX(2.5),
+            -RobotContainer.io.getDriverExpoLeftY(2.5),
+            -RobotContainer.io.getDriverExpoRightX(2.5)
+        );
     }
 
     // Called once the command ends or is interrupted.

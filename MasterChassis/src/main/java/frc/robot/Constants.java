@@ -5,7 +5,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 public final class Constants
 {
     // PID for the gyro heading.
-    public static double HEADING_P = 0.03;  
+    public static double HEADING_P = 0.005;  
     public static double HEADING_I = 0.0;  
     public static double HEADING_D = 0.0; 
     public static double HEADING_OUTPUT_LIMIT_LOW = -1;
@@ -53,13 +53,13 @@ public final class Constants
     public static int TURN_MAX_CURRENT_RUN = 20;
 
 
-    public static double ARM_P = 0.01;
+    public static double ARM_P = 0.02;
     public static double ARM_I = 0.0;
     public static double ARM_D = 0.0;
     public static double ARM_IZ = 0.0;
     public static double ARM_FF = 0.000;
     public static double ARM_MAX_OUTPUT = 1.0;
-    public static double ARM_MIN_OUTPUT = -0.4;
+    public static double ARM_MIN_OUTPUT = -0.3;
     public static boolean ARM_INVERT = true; 
     public static IdleMode ARM_IDLEMODE = IdleMode.kBrake;
 
@@ -84,6 +84,21 @@ public final class Constants
 
     public static int WINCH_MAX_CURRENT_STALL = 40;
     public static int WINCH_MAX_CURRENT_RUN = 30;
+
+    
+    public static double COLORWHEEL_P = 0.01;
+    public static double COLORWHEEL_I = 0.0;
+    public static double COLORWHEEL_D = 0.0;
+    public static double COLORWHEEL_IZ = 0.0;
+    public static double COLORWHEEL_FF = 0.000;
+    public static double COLORWHEEL_MAX_OUTPUT = 1.0;
+    public static double COLORWHEEL_MIN_OUTPUT = -0.4;
+    public static boolean COLORWHEEL_INVERT = true; 
+    public static IdleMode COLORWHEEL_IDLEMODE = IdleMode.kBrake;
+
+    public static int COLORWHEEL_MAX_CURRENT_STALL = 30;
+    public static int COLORWHEEL_MAX_CURRENT_RUN = 20;
+
 
 
     public static double GATHER_P = 0.01;

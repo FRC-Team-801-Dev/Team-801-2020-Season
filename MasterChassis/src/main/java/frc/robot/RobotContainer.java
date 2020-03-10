@@ -43,6 +43,7 @@ public class RobotContainer
     public static Chassis chassis;
     public static Gatherer gatherer;
     public static Magazine magazine;
+    public static Arm arm;
     public static Winch Winch;
     public static Shooter shooter;
     public static ColorWheel colorWheel;

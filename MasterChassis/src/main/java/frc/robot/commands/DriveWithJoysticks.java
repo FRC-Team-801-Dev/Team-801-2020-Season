@@ -34,7 +34,7 @@ public class DriveWithJoysticks extends CommandBase
     {
         RobotContainer.chassis.drive(RobotContainer.io.getDriverExpoLeftX(2.5),
                                     -RobotContainer.io.getDriverExpoLeftY(2.5),
-                                    -RobotContainer.io.getDriverExpoRightX(2.5));
+                                    RobotContainer.io.getDriverExpoRightX(2.5));  //TODO changed sign of X right may need to be done elsewhere
     }
 
     // Called once the command ends or is interrupted.

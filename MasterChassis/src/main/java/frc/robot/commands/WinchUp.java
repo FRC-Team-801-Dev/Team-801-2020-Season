@@ -8,7 +8,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
 public class WinchUp extends CommandBase
@@ -35,13 +34,8 @@ public class WinchUp extends CommandBase
     @Override
     public void execute()
     {
-        // do nothing if the arm is not above the lowest height setting
-        if(RobotContainer.arm.getHeight() > Constants.ARM_POSITION_LOW)
-        {
-            double value = RobotContainer.io.getManipulatorLeftY();
             // ONLY move in the positive direction regardless of the stick direction.
-            RobotContainer.winch.winchUp( Math.abs(value));
-        }
+            RobotContainer.winch.winchUp( Math.abs(RobotContainer.io.getManipulatorLeftY()));
     }
 
 
@@ -49,7 +43,8 @@ public class WinchUp extends CommandBase
     @Override
     public void end(boolean interrupted)
     {
-
+        // stop the motor if the command is interrupted.
+        RobotContainer.winch.winchUp( 0 );
     }
 
     

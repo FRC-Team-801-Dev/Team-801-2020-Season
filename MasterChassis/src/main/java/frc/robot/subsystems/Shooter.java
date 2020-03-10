@@ -9,7 +9,6 @@ package frc.robot.subsystems;
 
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.Gatherzine;
 
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;

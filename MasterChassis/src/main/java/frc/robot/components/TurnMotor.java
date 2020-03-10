@@ -59,11 +59,11 @@ public class TurnMotor
       desiredAngle = currentAngle;
       
       // initially setup the PID parameters
-      anglePID.setOutputLimits(Constants.OutputLowLimit, Constants.OutputHighLimit);
-      anglePID.setMaxIOutput(Constants.MaxIOutput);
-      anglePID.setOutputRampRate(Constants.OutputRampRate);
-      anglePID.setOutputFilter(Constants.OutputFilter);
-      anglePID.setSetpointRange(Constants.SetpointRange);
+      anglePID.setOutputLimits(Constants.TURN_OUTPUT_LIMIT_LOW, Constants.TURN_OUTPUT_LIMIT_HIGH);
+      anglePID.setMaxIOutput(Constants.TURN_MAX_I_OUT);
+      anglePID.setOutputRampRate(Constants.TURN_OUTPUT_RAMPRATE);
+      anglePID.setOutputFilter(Constants.TURN_OUTPUT_FILTER);
+      anglePID.setSetpointRange(Constants.TURN_SETPOINT_RANGE);
       anglePID.setContinousInputRange(2 * Math.PI);  // sets circular continuous input range
       anglePID.setContinous(true);  // lets PID know we are working with a continuous range [0-360)
 

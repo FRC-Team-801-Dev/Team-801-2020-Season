@@ -25,7 +25,7 @@ import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.ColorWheel;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Gatherer;
-import frc.robot.subsystems.Gatherzine;
+import frc.robot.subsystems.Magazine;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Winch;
 import frc.robot.subsystems.Shooter;
@@ -44,7 +44,7 @@ public class RobotContainer
     public static Gatherer gatherer;
     public static Magazine magazine;
     public static Arm arm;
-    public static Winch Winch;
+    public static Winch winch;
     public static Shooter shooter;
     public static ColorWheel colorWheel;
 

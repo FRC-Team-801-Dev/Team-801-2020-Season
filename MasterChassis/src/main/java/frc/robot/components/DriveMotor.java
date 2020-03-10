@@ -47,7 +47,7 @@ public class DriveMotor
     public void setDesiredRPM(double rpm)
     {
         desiredRPM = rpm;
-        sparkPID.setReference(desiredRPM, ControlType.kDutyCycle); 
+        sparkPID.setReference(desiredRPM / 5, ControlType.kDutyCycle); //TODO remove speed divisor used for testing safety
     }
 
     /**

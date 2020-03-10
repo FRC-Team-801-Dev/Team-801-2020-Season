@@ -14,17 +14,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 // NOTE: Complain to Luke Newcomb for problems with this subsystem
 
-public class Gatherzine extends SubsystemBase
+public class Gatherer extends SubsystemBase
 {
     
-    RPMMotor gatherMotor, magazineMotor;
-
-    boolean gathering = false; // A simple flag to toggle the gatherer
+    RPMMotor gatherMotor;
 
     /**
-     * Creates a new Gatherer and feeder combination.
+     * Creates a new Gatherer
      */
-    public Gatherzine()
+    public Gatherer()
     {
         // Initialize the gather motor (mini-NEO)
         gatherMotor = new RPMMotor(Constants.GATHER_MOTOR_ID);
@@ -41,32 +39,8 @@ public class Gatherzine extends SubsystemBase
                                     Constants.GATHER_OUTPUT_MIN,
                                     Constants.GATHER_OUTPUT_MAX);
 
-        // Initialize the magazine motor (mini-NEO)
-        magazineMotor = new RPMMotor(Constants.MAGAZINE_MOTOR_ID);
-        
-        // Set motor current limits so we don't blow anything up
-        magazineMotor.setCurrentLimits(Constants.MAGAZINE_STALL_CURRENT, Constants.MAGAZINE_FREE_CURRENT);
-        
-        // Set motor PID values for RPM control
-        magazineMotor.setPIDConstants(Constants.MAGAZINE_P,
-                                    Constants.MAGAZINE_I,
-                                    Constants.MAGAZINE_D,
-                                    Constants.MAGAZINE_IZ,
-                                    Constants.MAGAZINE_FF,
-                                    Constants.MAGAZINE_OUTPUT_MIN,
-                                    Constants.MAGAZINE_OUTPUT_MAX);
-
-
         // Just in case, set everything to 0 on initialization
         gatherMotor.setDesiredRPM(0);
-        magazineMotor.setDesiredRPM(0);
-
-    }
-
-    @Override
-    public void periodic()
-    {
-        
     }
 
     public void forwardGather()
@@ -82,20 +56,5 @@ public class Gatherzine extends SubsystemBase
     public void reverseGather()
     {
         gatherMotor.setDesiredRPM(-Constants.GATHER_RPM);
-    }
-
-    public void forwardMagazine()
-    {
-        magazineMotor.setDesiredRPM(Constants.MAGAZINE_RPM);
-    }
-
-    public void reverseMagazine()
-    {
-        magazineMotor.setDesiredRPM(-Constants.MAGAZINE_RPM);
-    }
-
-    public void stopMagazine()
-    {
-        magazineMotor.setDesiredRPM(0);
     }
 }

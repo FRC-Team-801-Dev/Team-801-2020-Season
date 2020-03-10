@@ -334,31 +334,19 @@ public class Chassis extends SubsystemBase
         //
         // 20
         // ________________
-        // | |
-        // | |
-        // | |
-        // | |
-        // | | 24
-        // | |
-        // | |
-        // | |
+        // |                |
+        // |                |
+        // |                |
+        // |                |
+        // |                | 24
+        // |                |
+        // |                |
+        // |                |
         // ----------------
         // SEE Constants.java
 
         // Angle from the center of the robot to the top right wheel
-        double thetaChassis = Utils.angle(Constants.ROBOT_LENGTH, Constants.ROBOT_WIDTH); // Gets
-                                                                                          // the
-                                                                                          // angle
-                                                                                          // created
-                                                                                          // from
-                                                                                          // the
-                                                                                          // center
-                                                                                          // of the
-                                                                                          // robot
-                                                                                          // to
-                                                                                          // the top
-                                                                                          // right
-                                                                                          // corner
+        double thetaChassis = Utils.angle(Constants.ROBOT_LENGTH, Constants.ROBOT_WIDTH); // Gets the angle created from the center of the robot to the top right corner
 
         double magnitude = Utils.limitRange(Utils.magnitude(x_l, y_l), 0, 1); // Magnitude of left
                                                                               // joystick movement

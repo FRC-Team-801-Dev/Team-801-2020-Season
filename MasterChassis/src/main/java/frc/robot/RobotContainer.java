@@ -18,9 +18,13 @@ import frc.robot.commands.ArmMid;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.WinchUp;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.ForwardGather;
+import frc.robot.commands.LoadOneBall;
+import frc.robot.commands.ReverseGather;
 import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.ColorWheel;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Gatherer;
 import frc.robot.subsystems.Gatherzine;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Winch;
@@ -37,9 +41,9 @@ public class RobotContainer
     public static IO io;
     
     public static Chassis chassis;
-    public static Gatherzine gatherzine;
-    public static Arm arm;
-    public static Winch winch;
+    public static Gatherer gatherer;
+    public static Magazine magazine;
+    public static Winch Winch;
     public static Shooter shooter;
     public static ColorWheel colorWheel;
 
@@ -58,9 +62,10 @@ public class RobotContainer
 
         // Initialize the subsystems
         chassis = new Chassis();
-        gatherzine = new Gatherzine();
-        arm = new Arm();
+        gatherer = new Gatherer();
+        magazine = new Magazine();
         winch = new Winch();
+        arm = new Arm();
         shooter = new Shooter();
         colorWheel = new ColorWheel();
 
@@ -94,9 +99,19 @@ public class RobotContainer
 
         
         
+        
+        JoystickButton fwdGatherButton = new JoystickButton(IO.driver, XboxController.Button.kBumperLeft.value);
+        JoystickButton revGatherButton = new JoystickButton(IO.driver, XboxController.Button.kBumperRight.value);
+        JoystickButton loadBallButton = new JoystickButton(IO.driver, XboxController.Button.kX.value);
+
+        fwdGatherButton.whileHeld(new ForwardGather());
+        revGatherButton.whileHeld(new ReverseGather());
+
+        loadBallButton.whenPressed(new LoadOneBall());
+
+
 
     }
-
 
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.

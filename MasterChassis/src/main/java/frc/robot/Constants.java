@@ -4,6 +4,9 @@ import com.revrobotics.CANSparkMax.IdleMode;
 
 public final class Constants
 {
+    public static int NEO_ENCODER_CNTS_PER_REV = 42;
+
+
     // PID for the gyro heading.
     public static double HEADING_P = 0.005;  
     public static double HEADING_I = 0.0;  
@@ -84,6 +87,8 @@ public final class Constants
 
     public static int WINCH_MAX_CURRENT_STALL = 40;
     public static int WINCH_MAX_CURRENT_RUN = 30;
+
+    public static double WINCH_SAFE_TO_DRIVE = 4;  // number of winch revs do disable the drive wheels.
 
     
     public static double COLORWHEEL_P = 0.01;

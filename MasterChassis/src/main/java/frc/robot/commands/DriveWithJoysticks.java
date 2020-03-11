@@ -34,9 +34,12 @@ public class DriveWithJoysticks extends CommandBase
     {
         if(RobotContainer.winch.safeToDrive())
         {
-        RobotContainer.chassis.drive(RobotContainer.io.getDriverExpoLeftX(2.5),
-                                    -RobotContainer.io.getDriverExpoLeftY(2.5),
-                                    RobotContainer.io.getDriverExpoRightX(2.5));  //TODO changed sign of X right may need to be done elsewhere
+            RobotContainer.chassis.drive(RobotContainer.io.getDriverExpoLeftX(2.5),
+                                        -RobotContainer.io.getDriverExpoLeftY(2.5),
+                                         RobotContainer.io.getDriverExpoRightX(2.5));  //TODO changed sign of X right may need to be done elsewhere
+        } else 
+        {
+            RobotContainer.chassis.stop(); 
         }
     }
 

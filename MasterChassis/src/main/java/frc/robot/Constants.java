@@ -91,13 +91,13 @@ public final class Constants
     public static double WINCH_SAFE_TO_DRIVE = 200;  // number of winch revs do disable the drive wheels.
 
     
-    public static double COLORWHEEL_P = 0.01;
+    public static double COLORWHEEL_P = 0.3;
     public static double COLORWHEEL_I = 0.0;
     public static double COLORWHEEL_D = 0.0;
     public static double COLORWHEEL_IZ = 0.0;
     public static double COLORWHEEL_FF = 0.000;
     public static double COLORWHEEL_MAX_OUTPUT = 1.0;
-    public static double COLORWHEEL_MIN_OUTPUT = -0.4;
+    public static double COLORWHEEL_MIN_OUTPUT = -1.0;
     public static boolean COLORWHEEL_INVERT = true; 
     public static IdleMode COLORWHEEL_IDLEMODE = IdleMode.kBrake;
 
@@ -105,7 +105,7 @@ public final class Constants
     public static int COLORWHEEL_MAX_CURRENT_RUN = 20;
 
     public static double SPINNER_MAX_HEIGHT = 575;
-    public static double SPINNER_MIN_HEIGHT = 0;
+    public static double SPINNER_MIN_HEIGHT = -300;
     public static double COLORWHEEL_ROTATION_COUNT = 4;
 
 

@@ -19,13 +19,15 @@ public class ReverseGather extends CommandBase
     {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(RobotContainer.gatherer);
+        addRequirements(RobotContainer.magazine);
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize()
     {
-        RobotContainer.gatherer.reverseGather();
+        RobotContainer.gatherer.reverse();
+        RobotContainer.magazine.reverse();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -39,7 +41,8 @@ public class ReverseGather extends CommandBase
     @Override
     public void end(boolean interrupted)
     {
-        RobotContainer.gatherer.stopGathering();
+        RobotContainer.gatherer.stop();
+        RobotContainer.magazine.stop();
     }
 
     // Returns true when the command should end.

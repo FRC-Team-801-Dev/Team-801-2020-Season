@@ -61,7 +61,7 @@ public class ColorWheel extends SubsystemBase
   public void rotateColorWheel(double rotations)
   {
     //convert color wheel rotations to motorshaft rotations
-    spinnerPID.setReference(Constants.COLORWHEEL_ROTATION_COUNT * 8, ControlType.kPosition);
+    spinnerPID.setReference(-Constants.COLORWHEEL_ROTATION_COUNT * 8, ControlType.kPosition);
   }
 
   public void sendSpinnerMaxHeight() // in motor rotations...

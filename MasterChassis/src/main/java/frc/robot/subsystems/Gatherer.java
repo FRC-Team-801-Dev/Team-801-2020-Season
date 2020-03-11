@@ -8,16 +8,20 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
-import frc.robot.components.RPMMotor;
-
+import com.revrobotics.CANEncoder;
+import com.revrobotics.CANPIDController;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.ControlType;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 // NOTE: Complain to Luke Newcomb for problems with this subsystem
 
 public class Gatherer extends SubsystemBase
 {
-    
-    RPMMotor gatherMotor;
+
+    private CANSparkMax sparkMotor;
+    private CANPIDController sparkPID;
 
     /**
      * Creates a new Gatherer
@@ -25,36 +29,23 @@ public class Gatherer extends SubsystemBase
     public Gatherer()
     {
         // Initialize the gather motor (mini-NEO)
-        gatherMotor = new RPMMotor(Constants.GATHER_MOTOR_ID);
+        sparkMotor = new CANSparkMax(Constants.GATHER_MOTOR_ID, MotorType.kBrushless);
+        sparkPID = sparkMotor.getPIDController();
         
-        // Set motor current limits so we don't blow anything up
-        gatherMotor.setCurrentLimits(Constants.GATHER_STALL_CURRENT, Constants.GATHER_FREE_CURRENT);
-        
-        // Set motor PID values for RPM control
-        gatherMotor.setPIDConstants(Constants.GATHER_P,
-                                    Constants.GATHER_I,
-                                    Constants.GATHER_D,
-                                    Constants.GATHER_IZ,
-                                    Constants.GATHER_FF,
-                                    Constants.GATHER_OUTPUT_MIN,
-                                    Constants.GATHER_OUTPUT_MAX);
-
-        // Just in case, set everything to 0 on initialization
-        gatherMotor.setDesiredRPM(0);
     }
 
-    public void forwardGather()
+    public void forward()
     {
-        gatherMotor.setDesiredRPM(Constants.GATHER_RPM);
+        sparkPID.setReference(Constants.GATHER_SPEED, ControlType.kDutyCycle);
     }
 
-    public void stopGathering()
+    public void stop()
     {
-        gatherMotor.setDesiredRPM(0);
+        sparkPID.setReference(0, ControlType.kDutyCycle);
     }
 
-    public void reverseGather()
+    public void reverse()
     {
-        gatherMotor.setDesiredRPM(-Constants.GATHER_RPM);
+        sparkPID.setReference(-Constants.GATHER_SPEED, ControlType.kDutyCycle);
     }
 }

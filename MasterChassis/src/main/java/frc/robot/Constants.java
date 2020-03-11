@@ -33,9 +33,7 @@ public final class Constants
     public static int DRIVE_MAX_CURRENT_STALL = 40;
     public static int DRIVE_MAX_CURRENT_RUN = 30;
 
-    public static double GATHER_RPM = 500;
     public static double MAGAZINE_RPM = 300;
-
     public static double MAGAZINE_REVERSE_TIME = 2; // TODO: (In seconds) change to real value
     public static double MAGAZINE_LOAD_TIME = 1; // TODO: (In seconds) change to real value
 
@@ -91,11 +89,11 @@ public final class Constants
     public static double WINCH_SAFE_TO_DRIVE = 200;  // number of winch revs do disable the drive wheels.
 
     
-    public static double COLORWHEEL_P = 0.01;
+    public static double COLORWHEEL_P = 0.5;
     public static double COLORWHEEL_I = 0.0;
     public static double COLORWHEEL_D = 0.0;
     public static double COLORWHEEL_IZ = 0.0;
-    public static double COLORWHEEL_FF = 0.000;
+    public static double COLORWHEEL_FF = 0.005;
     public static double COLORWHEEL_MAX_OUTPUT = 1.0;
     public static double COLORWHEEL_MIN_OUTPUT = -0.4;
     public static boolean COLORWHEEL_INVERT = true; 
@@ -110,7 +108,7 @@ public final class Constants
 
 
 
-    public static double GATHER_P = 0.01;
+    public static double GATHER_P = 0.001;
     public static double GATHER_I = 0;
     public static double GATHER_D = 0;
     public static double GATHER_IZ = 0.0;
@@ -119,8 +117,9 @@ public final class Constants
     public static double GATHER_OUTPUT_MAX = 1;
     public static int GATHER_STALL_CURRENT = 19; // 20 amp fuse
     public static int GATHER_FREE_CURRENT = 19;
+    public static double GATHER_SPEED = 0.8;
 
-    public static double MAGAZINE_P = 0.0002;
+    public static double MAGAZINE_P = 0.001;
     public static double MAGAZINE_I = 0;
     public static double MAGAZINE_D = 0;
     public static double MAGAZINE_IZ = 0.0;
@@ -129,6 +128,7 @@ public final class Constants
     public static double MAGAZINE_OUTPUT_MAX = 1;
     public static int MAGAZINE_STALL_CURRENT = 19; // 20 amp fuse
     public static int MAGAZINE_FREE_CURRENT = 19;
+    public static double MAGAZINE_SPEED = -1.0;
 
     // Swerve Pod Motor CAN IDs
     public static int POD_1_DRIVE = 13;       // NEO

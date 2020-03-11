@@ -82,16 +82,11 @@ public class RobotContainer
         armHighButton.whenPressed(new ArmHigh()); 
 
         
-        
-        
         JoystickButton fwdGatherButton = new JoystickButton(IO.driver, XboxController.Button.kBumperLeft.value);
-        JoystickButton revGatherButton = new JoystickButton(IO.driver, XboxController.Button.kBumperRight.value);
-        JoystickButton loadBallButton = new JoystickButton(IO.driver, XboxController.Button.kX.value);
-
         fwdGatherButton.whileHeld(new ForwardGather());
-        revGatherButton.whileHeld(new ReverseGather());
 
-        loadBallButton.whenPressed(new LoadOneBall());
+        JoystickButton revGatherButton = new JoystickButton(IO.driver, XboxController.Button.kBumperRight.value);
+        revGatherButton.whileHeld(new ReverseGather());
     }
 
     /**

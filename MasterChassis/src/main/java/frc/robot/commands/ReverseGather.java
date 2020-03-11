@@ -25,14 +25,14 @@ public class ReverseGather extends CommandBase
     @Override
     public void initialize()
     {
-
+        RobotContainer.gatherer.reverseGather();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute()
     {
-        RobotContainer.gatherer.reverseGather();
+        
     }
 
     // Called once the command ends or is interrupted.

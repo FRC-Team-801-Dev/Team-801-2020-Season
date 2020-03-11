@@ -34,7 +34,7 @@ public class TurnMotor
       // sparkEncoder = sparkMotor.getEncoder(EncoderType.kQuadrature, 8192 * 6);  // New shaft encoder Rev Through Bore Encoder version
 
       // for the Neo 550 motor built in encoder we need to do the external gear reductions math in the setPositionConversionFactor
-      sparkEncoder = sparkMotor.getEncoder(EncoderType.kHallSensor, 42);  // Spark Neo 550 motor built in encoder  (need to do the external gear red)
+      sparkEncoder = sparkMotor.getEncoder(EncoderType.kHallSensor, Constants.NEO_ENCODER_CNTS_PER_REV);  // Spark Neo 550 motor built in encoder  (need to do the external gear red)
 
       //sparkEncoder.setPositionConversionFactor(2 * Math.PI);  // for the CRT and other shaft encoder
 

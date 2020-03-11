@@ -41,7 +41,7 @@ public class Arm extends SubsystemBase
     armMotor.setSmartCurrentLimit(Constants.ARM_MAX_CURRENT_STALL, Constants.ARM_MAX_CURRENT_RUN);
 
     armPID = armMotor.getPIDController();
-    armEncoder = armMotor.getEncoder(EncoderType.kHallSensor, 42);
+    armEncoder = armMotor.getEncoder(EncoderType.kHallSensor, Constants.NEO_ENCODER_CNTS_PER_REV);
     armPID.setP(Constants.ARM_P);
     armPID.setI(Constants.ARM_I);
     armPID.setD(Constants.ARM_D);

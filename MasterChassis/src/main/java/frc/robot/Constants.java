@@ -88,7 +88,7 @@ public final class Constants
     public static int WINCH_MAX_CURRENT_STALL = 40;
     public static int WINCH_MAX_CURRENT_RUN = 30;
 
-    public static double WINCH_SAFE_TO_DRIVE = 4;  // number of winch revs do disable the drive wheels.
+    public static double WINCH_SAFE_TO_DRIVE = 200;  // number of winch revs do disable the drive wheels.
 
     
     public static double COLORWHEEL_P = 0.01;

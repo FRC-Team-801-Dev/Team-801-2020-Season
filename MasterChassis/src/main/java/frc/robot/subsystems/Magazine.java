@@ -28,6 +28,7 @@ public class Magazine extends SubsystemBase
     {
         // Initialize the gather motor (mini-NEO)
         sparkMotor = new CANSparkMax(Constants.MAGAZINE_MOTOR_ID, MotorType.kBrushless);
+        sparkMotor.setInverted(Constants.MAGAZINE_INVERTED);
         sparkPID = sparkMotor.getPIDController();
         
     }

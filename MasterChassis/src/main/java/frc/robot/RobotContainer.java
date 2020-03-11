@@ -22,6 +22,7 @@ import frc.robot.commands.AutonomousDriveBackward;
 import frc.robot.commands.WinchUp;
 import frc.robot.commands.ForwardGather;
 import frc.robot.commands.ReverseGather;
+import frc.robot.commands.Shoot;
 import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.Gatherer;
 import frc.robot.subsystems.Magazine;
@@ -96,6 +97,9 @@ public class RobotContainer
 
         JoystickButton revGatherButton = new JoystickButton(IO.driver, XboxController.Button.kBumperRight.value);
         revGatherButton.whileHeld(new ReverseGather());
+
+        JoystickButton shootTrigger = new JoystickButton(IO.manipulator, XboxController.Button.kBumperRight.value);
+        shootTrigger.whileHeld(new Shoot());
     }
 
     /**

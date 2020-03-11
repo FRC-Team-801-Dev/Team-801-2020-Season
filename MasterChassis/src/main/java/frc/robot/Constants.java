@@ -106,8 +106,6 @@ public final class Constants
     public static double SPINNER_MIN_HEIGHT = 0;
     public static double COLORWHEEL_ROTATION_COUNT = 4;
 
-
-
     public static double GATHER_P = 0.001;
     public static double GATHER_I = 0;
     public static double GATHER_D = 0;
@@ -117,7 +115,7 @@ public final class Constants
     public static double GATHER_OUTPUT_MAX = 1;
     public static int GATHER_STALL_CURRENT = 19; // 20 amp fuse
     public static int GATHER_FREE_CURRENT = 19;
-    public static double GATHER_SPEED = 0.8;
+    public static double GATHER_SPEED = 0.7;
 
     public static double MAGAZINE_P = 0.001;
     public static double MAGAZINE_I = 0;
@@ -128,7 +126,21 @@ public final class Constants
     public static double MAGAZINE_OUTPUT_MAX = 1;
     public static int MAGAZINE_STALL_CURRENT = 19; // 20 amp fuse
     public static int MAGAZINE_FREE_CURRENT = 19;
-    public static double MAGAZINE_SPEED = -1.0;
+    public static boolean MAGAZINE_INVERTED = true;
+    public static double MAGAZINE_SPEED = -0.75;
+
+    
+    public static double SHOOTER_P = 0;
+    public static double SHOOTER_I = 0;
+    public static double SHOOTER_D = 0;
+    public static double SHOOTER_IZ = 0;
+    public static double SHOOTER_FF = 0;
+    public static boolean SHOOTER_INVERTED = true;
+    public static double SHOOT_VELOCITY = 4500;
+
+    public static boolean BREACH_INVERTED = true;
+    public static double BREACH_DOWNSPEED = -0.09;
+    public static double BREACH_UPSPEED = 1.0;
 
     // Swerve Pod Motor CAN IDs
     public static int POD_1_DRIVE = 13;       // NEO

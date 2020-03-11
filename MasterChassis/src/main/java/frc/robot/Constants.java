@@ -104,6 +104,10 @@ public final class Constants
     public static int COLORWHEEL_MAX_CURRENT_STALL = 30;
     public static int COLORWHEEL_MAX_CURRENT_RUN = 20;
 
+    public static double SPINNER_MAX_HEIGHT = 575;
+    public static double SPINNER_MIN_HEIGHT = 0;
+    public static double COLORWHEEL_ROTATION_COUNT = 4;
+
 
 
     public static double GATHER_P = 0.01;

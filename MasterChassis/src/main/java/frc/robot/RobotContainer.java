@@ -15,20 +15,19 @@ import frc.robot.commands.ArmDown;
 import frc.robot.commands.ArmHigh;
 import frc.robot.commands.ArmLow;
 import frc.robot.commands.ArmMid;
+import frc.robot.commands.AutonomousDriveBackward;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.WinchUp;
-import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.ForwardGather;
 import frc.robot.commands.LoadOneBall;
 import frc.robot.commands.ReverseGather;
 import frc.robot.subsystems.Chassis;
-import frc.robot.subsystems.ColorWheel;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Gatherer;
 import frc.robot.subsystems.Magazine;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Winch;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.ColorWheel;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -38,40 +37,24 @@ import frc.robot.subsystems.Shooter;
  */
 public class RobotContainer
 {
-    public static IO io;
+    public static final IO io = new IO();
     
-    public static Chassis chassis;
-    public static Gatherer gatherer;
-    public static Magazine magazine;
-    public static Arm arm;
-    public static Winch winch;
-    public static Shooter shooter;
-    public static ColorWheel colorWheel;
+    public static final Chassis chassis = new Chassis();
+    public static final Gatherer gatherer = new Gatherer();
+    public static final Magazine magazine = new Magazine();
+    public static final Arm arm = new Arm();
+    public static final Winch winch = new Winch();
+    public static final Shooter shooter = new Shooter();
+    public static final ColorWheel colorWheel = new ColorWheel();
 
-    private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-
-    private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+    private final Command m_autoCommand = new AutonomousDriveBackward(1000);
 
     /**
      * The container for the robot.  Contains subsystems, OI devices, and commands.
      */
     public RobotContainer()
     {
-
-        // Initialize controller input
-        io = new IO();
-
-        // Initialize the subsystems
-        chassis = new Chassis();
-        gatherer = new Gatherer();
-        magazine = new Magazine();
-        winch = new Winch();
-        arm = new Arm();
-        shooter = new Shooter();
-        colorWheel = new ColorWheel();
-
         // Set the default commands for each subsystem
-        chassis.setDefaultCommand(new DriveWithJoysticks());
         winch.setDefaultCommand(new WinchUp());
         
         // Configure the button bindings
@@ -109,9 +92,6 @@ public class RobotContainer
         revGatherButton.whileHeld(new ReverseGather());
 
         loadBallButton.whenPressed(new LoadOneBall());
-
-
-
     }
 
     /**

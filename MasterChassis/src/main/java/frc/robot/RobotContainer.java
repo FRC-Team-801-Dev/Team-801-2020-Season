@@ -15,6 +15,9 @@ import frc.robot.commands.ArmDown;
 import frc.robot.commands.ArmHigh;
 import frc.robot.commands.ArmLow;
 import frc.robot.commands.ArmMid;
+import frc.robot.commands.ColorWheelDown;
+import frc.robot.commands.ColorWheelUp;
+import frc.robot.commands.ColorWheelRotate;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.WinchUp;
 import frc.robot.commands.ExampleCommand;
@@ -98,7 +101,15 @@ public class RobotContainer
         JoystickButton armHighButton = new JoystickButton (IO.driver, XboxController.Button.kY.value);
         armHighButton.whenPressed(new ArmHigh()); 
 
+        JoystickButton spinnerUpButton = new JoystickButton (IO.manipulator, XboxController.Button.kY.value);
+        spinnerUpButton.whenPressed(new ColorWheelUp());
         
+        JoystickButton spinnerDownButton = new JoystickButton (IO.manipulator, XboxController.Button.kA.value);
+        spinnerDownButton.whenPressed(new ColorWheelDown());
+        
+        JoystickButton spinnerColorButton = new JoystickButton (IO.manipulator, XboxController.Button.kX.value);
+        spinnerColorButton.whenPressed(new ColorWheelRotate());
+
         
         
         JoystickButton fwdGatherButton = new JoystickButton(IO.driver, XboxController.Button.kBumperLeft.value);

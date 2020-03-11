@@ -39,6 +39,7 @@ public class Shooter extends SubsystemBase
     shooterPID.setD(Constants.DRIVE_D);
     shooterPID.setIZone(Constants.DRIVE_IZ);
     shooterPID.setFF(Constants.DRIVE_FF);
+    shooterMotor.setInverted(Constants.SHOOTER_INVERTED);
     shooterPID.setOutputRange(Constants.DRIVE_MIN_OUTPUT, Constants.DRIVE_MAX_OUTPUT);
 
     shooterMotor.setSmartCurrentLimit(Constants.DRIVE_MAX_CURRENT_STALL, Constants.DRIVE_MAX_CURRENT_RUN);
@@ -54,22 +55,34 @@ public class Shooter extends SubsystemBase
     breachPID.setOutputRange(Constants.DRIVE_MIN_OUTPUT, Constants.DRIVE_MAX_OUTPUT);
     
     breachMotor.setSmartCurrentLimit(Constants.DRIVE_MAX_CURRENT_STALL, Constants.DRIVE_MAX_CURRENT_RUN);
+    breachMotor.setInverted(Constants.BREACH_INVERTED);
   }
 
   //TODO: find correct speed
-  public void activateShooter()
+  public void enableShooter()
   {
-    shooterPID.setReference(4000, ControlType.kDutyCycle);
-  }
-  //TODO: set to go by rotations rather than speed and fix control setup
-  public void launchBall()
-  {
-    breachPID.setReference(4000, ControlType.kDutyCycle);
+    shooterPID.setReference(1.0, ControlType.kDutyCycle);
+    //breachPID.setReference(Constants.BREACH_DOWNSPEED, ControlType.kDutyCycle);
   }
 
-  @Override
-  public void periodic() 
+  public void popUp()
   {
-    // This method will be called once per scheduler run
+    breachPID.setReference(Constants.BREACH_UPSPEED, ControlType.kDutyCycle);
+  }
+
+  public void holdDown()
+  {
+    breachPID.setReference(Constants.BREACH_DOWNSPEED, ControlType.kDutyCycle);
+  }
+
+  public void stop()
+  {
+    shooterPID.setReference(0, ControlType.kDutyCycle);
+    breachPID.setReference(0, ControlType.kDutyCycle);
+  }
+
+  public boolean isReady()
+  {
+    return shooterEncoder.getVelocity() > Constants.SHOOT_VELOCITY;
   }
 }

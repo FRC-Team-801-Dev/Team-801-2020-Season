@@ -19,11 +19,10 @@ import frc.robot.commands.ColorWheelDown;
 import frc.robot.commands.ColorWheelUp;
 import frc.robot.commands.ColorWheelRotate;
 import frc.robot.commands.AutonomousDriveBackward;
-import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.WinchUp;
 import frc.robot.commands.ForwardGather;
-import frc.robot.commands.LoadOneBall;
 import frc.robot.commands.ReverseGather;
+import frc.robot.commands.Shoot;
 import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.Gatherer;
 import frc.robot.subsystems.Magazine;
@@ -92,17 +91,15 @@ public class RobotContainer
         
         JoystickButton spinnerColorButton = new JoystickButton (IO.manipulator, XboxController.Button.kX.value);
         spinnerColorButton.whenPressed(new ColorWheelRotate());
-
-        
         
         JoystickButton fwdGatherButton = new JoystickButton(IO.driver, XboxController.Button.kBumperLeft.value);
-        JoystickButton revGatherButton = new JoystickButton(IO.driver, XboxController.Button.kBumperRight.value);
-        JoystickButton loadBallButton = new JoystickButton(IO.driver, XboxController.Button.kX.value);
-
         fwdGatherButton.whileHeld(new ForwardGather());
+
+        JoystickButton revGatherButton = new JoystickButton(IO.driver, XboxController.Button.kBumperRight.value);
         revGatherButton.whileHeld(new ReverseGather());
 
-        loadBallButton.whenPressed(new LoadOneBall());
+        JoystickButton shootTrigger = new JoystickButton(IO.manipulator, XboxController.Button.kBumperRight.value);
+        shootTrigger.whileHeld(new Shoot());
     }
 
     /**

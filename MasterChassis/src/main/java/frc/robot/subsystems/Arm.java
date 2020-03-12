@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
+import frc.robot.commands.ArmDown;
 import com.revrobotics.CANDigitalInput;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
@@ -60,10 +61,17 @@ public class Arm extends SubsystemBase
   }
     
 
-  public void sendArmHeight(double rotations) // in lead screw rotations...
+  public void setArmHeight(double rotations) // in lead screw rotations...
   {
-    //Lifter Motor must rotate 400 times to go 4 inches on lead screw, and 40 inches in height.
-    armPID.setReference(rotations, ControlType.kPosition);
+    if(armZeroedFlag)
+    {
+       //Lifter Motor must rotate 400 times to go 4 inches on lead screw, and 40 inches in height.
+       armPID.setReference(rotations, ControlType.kPosition);
+    }
+    else
+    {
+       new ArmDown().schedule();
+    }
   }
 
 

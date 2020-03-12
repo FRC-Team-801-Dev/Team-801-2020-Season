@@ -26,7 +26,7 @@ public class ArmLow extends CommandBase
   @Override
   public void initialize() 
   {
-    RobotContainer.arm.sendArmHeight(Constants.ARM_POSITION_LOW);
+    RobotContainer.arm.setArmHeight(Constants.ARM_POSITION_LOW);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

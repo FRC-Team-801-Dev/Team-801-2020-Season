@@ -26,7 +26,7 @@ public class ArmMid extends CommandBase
   @Override
   public void initialize() 
   {
-    RobotContainer.arm.sendArmHeight(Constants.ARM_POSITION_MID);
+    RobotContainer.arm.setArmHeight(Constants.ARM_POSITION_MID);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

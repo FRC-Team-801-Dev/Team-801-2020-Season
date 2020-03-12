@@ -7,19 +7,15 @@
 
 package frc.robot.commands;
 
-import com.fasterxml.jackson.databind.util.RootNameLookup;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.Magazine;
+
 
 public class Shoot extends CommandBase
 {
 
     Timer timer;
-    boolean hasShot, firstShot;
 
     /**
      * Creates a new Shoot.
@@ -28,7 +24,8 @@ public class Shoot extends CommandBase
     {
         addRequirements(RobotContainer.shooter);
         addRequirements(RobotContainer.magazine);
-        
+        addRequirements(RobotContainer.gatherer);
+
         timer = new Timer();
         
     }
@@ -41,8 +38,6 @@ public class Shoot extends CommandBase
         RobotContainer.shooter.enableShooter();
         RobotContainer.gatherer.reverse();
         RobotContainer.magazine.reverse();
-
-        firstShot = true;
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -52,20 +47,15 @@ public class Shoot extends CommandBase
         if(timer.hasElapsed(0.1))
         {
             RobotContainer.magazine.stop();
-            if (firstShot)
-            {
-                RobotContainer.gatherer.stop();
-                firstShot = false;
-            }
-            hasShot = false;
+            RobotContainer.gatherer.stop();
+    
         }
 
-        if (RobotContainer.shooter.isReady() && !hasShot)
+        if (RobotContainer.shooter.isReady())
         {
             RobotContainer.shooter.popUp();
-            hasShot = true;
 
-            Timer.delay(0.25);
+            Timer.delay(0.35);
             RobotContainer.shooter.holdDown();
 
             RobotContainer.magazine.forward();

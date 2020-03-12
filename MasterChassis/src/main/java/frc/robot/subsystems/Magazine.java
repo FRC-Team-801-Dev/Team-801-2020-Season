@@ -22,11 +22,11 @@ public class Magazine extends SubsystemBase
     private CANPIDController sparkPID;
 
     /**
-     * Creates a new Gatherer
+     * Creates a new Magazine
      */
     public Magazine()
     {
-        // Initialize the gather motor (mini-NEO)
+        // Initialize the Magazine motor (NEO)
         sparkMotor = new CANSparkMax(Constants.MAGAZINE_MOTOR_ID, MotorType.kBrushless);
         sparkMotor.setInverted(Constants.MAGAZINE_INVERTED);
         sparkPID = sparkMotor.getPIDController();
@@ -35,7 +35,7 @@ public class Magazine extends SubsystemBase
 
     public void forward()
     {
-        sparkPID.setReference(Constants.GATHER_SPEED, ControlType.kDutyCycle);
+        sparkPID.setReference(Constants.MAGAZINE_SPEED, ControlType.kDutyCycle);
     }
 
     public void stop()
@@ -45,6 +45,6 @@ public class Magazine extends SubsystemBase
 
     public void reverse()
     {
-        sparkPID.setReference(-Constants.GATHER_SPEED, ControlType.kDutyCycle);
+        sparkPID.setReference(-Constants.MAGAZINE_SPEED, ControlType.kDutyCycle);
     }
 }

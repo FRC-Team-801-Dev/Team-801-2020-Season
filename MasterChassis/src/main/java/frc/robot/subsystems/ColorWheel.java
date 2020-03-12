@@ -42,7 +42,7 @@ public class ColorWheel extends SubsystemBase
     spinnerPID.setD(Constants.COLORWHEEL_D);
     spinnerPID.setIZone(Constants.COLORWHEEL_IZ);
     spinnerPID.setFF(Constants.COLORWHEEL_FF);
-    spinnerPID.setOutputRange(Constants.COLORWHEEL_MIN_OUTPUT, Constants.COLORWHEEL_MAX_OUTPUT);
+    spinnerPID.setOutputRange(Constants.COLORWHEEL_MIN_OUTPUT, Constants.COLORWHEEL_MAX_OUTPUT_RAISE);
 
     spinnerMotor.setSmartCurrentLimit(Constants.COLORWHEEL_MAX_CURRENT_STALL, Constants.COLORWHEEL_MAX_CURRENT_RUN);
 
@@ -61,21 +61,26 @@ public class ColorWheel extends SubsystemBase
 
   public void rotateColorWheel(double rotations)
   {
-    //convert color wheel rotations to motorshaft rotations 80 shatf rotations = 1 color wheel rotation
-    spinnerPID.setReference(Constants.COLORWHEEL_ROTATION_COUNT * 80, ControlType.kPosition);
+    if(spinnerEncoder.getPosition() < Constants.SPINNER_MAX_HEIGHT - 2 )  // The -2 accounts for any small error in the encoder value
+    {
+      spinnerPID.setOutputRange(Constants.COLORWHEEL_MIN_OUTPUT, Constants.COLORWHEEL_MAX_OUTPUT_RAISE);
+      spinnerPID.setReference( Constants.SPINNER_MAX_HEIGHT, ControlType.kPosition );
+    }
+    else
+    {
+      spinnerPID.setOutputRange(Constants.COLORWHEEL_MIN_OUTPUT, Constants.COLORWHEEL_MAX_OUTPUT_SPIN);
+      //convert color wheel rotations to motorshaft rotations 80 shatf rotations = 1 color wheel rotation
+      spinnerPID.setReference(spinnerEncoder.getPosition() + rotations * 80, ControlType.kPosition);
+    }
   }
 
-  public void sendSpinnerMaxHeight() // in motor rotations...
-  {
-    spinnerPID.setReference(Constants.SPINNER_MAX_HEIGHT, ControlType.kPosition);
-  }
 
   // sets arm to fully retracted and zeros the encoder
   public void resetSpinner()
   {
     spinnerZeroedFlag = false;
     // run till the limit switch stops it... 
-    spinnerPID.setReference(Constants.SPINNER_MIN_HEIGHT, ControlType.kPosition);  
+    spinnerPID.setReference(-0.4, ControlType.kDutyCycle);  
   }
 
   public void spinnerResetting() 

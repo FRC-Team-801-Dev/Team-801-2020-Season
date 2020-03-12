@@ -115,7 +115,7 @@ public final class Constants
     public static double GATHER_OUTPUT_MAX = 1;
     public static int GATHER_STALL_CURRENT = 19; // 20 amp fuse
     public static int GATHER_FREE_CURRENT = 19;
-    public static double GATHER_SPEED = 0.7;
+    public static double GATHER_SPEED = 0.6;
 
     public static double MAGAZINE_P = 0.001;
     public static double MAGAZINE_I = 0;
@@ -130,11 +130,11 @@ public final class Constants
     public static double MAGAZINE_SPEED = 0.75;
 
     
-    public static double SHOOTER_P = 0.006;
+    public static double SHOOTER_P = 0.0075;
     public static double SHOOTER_I = 0;
     public static double SHOOTER_D = 0;
     public static double SHOOTER_IZ = 0;
-    public static double SHOOTER_FF = 0.05;
+    public static double SHOOTER_FF = 0.075;
     public static double SHOOTER_OUTPUT_MIN = -1;
     public static double SHOOTER_OUTPUT_MAX = 1;
     public static boolean SHOOTER_INVERTED = true;
@@ -144,7 +144,6 @@ public final class Constants
 
     public static double SHOOTER_RPM = 5000;
     public static double SHOOTER_RPM_WINDOW = 50;
-
 
     public static boolean BREACH_INVERTED = true;
     public static double BREACH_DOWNSPEED = -0.09;

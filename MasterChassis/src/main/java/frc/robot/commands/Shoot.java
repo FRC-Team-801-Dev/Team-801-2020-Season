@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
 
@@ -38,31 +39,26 @@ public class Shoot extends CommandBase
         RobotContainer.shooter.enableShooter();
         RobotContainer.gatherer.reverse();
         RobotContainer.magazine.reverse();
+        Timer.delay(0.06);
+        RobotContainer.magazine.stop();
+        RobotContainer.gatherer.stop();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute()
     {
-        if(timer.hasElapsed(0.1))
+        if (RobotContainer.shooter.isReady())
+        {
+            RobotContainer.magazine.forward();
+            RobotContainer.gatherer.forward();
+            RobotContainer.shooter.popUp();
+        }
+        else
         {
             RobotContainer.magazine.stop();
             RobotContainer.gatherer.stop();
-    
-        }
-
-        if (RobotContainer.shooter.isReady())
-        {
-            RobotContainer.shooter.popUp();
-
-            Timer.delay(0.35);
-            RobotContainer.shooter.holdDown();
-
-            RobotContainer.magazine.forward();
-            Timer.delay(1);
-
-            RobotContainer.magazine.reverse();
-            timer.reset();
+            RobotContainer.shooter.stop();
         }
     }
 
@@ -72,6 +68,7 @@ public class Shoot extends CommandBase
     {
         RobotContainer.shooter.stop();
         RobotContainer.magazine.stop();
+        RobotContainer.gatherer.stop();
     }
 
     // Returns true when the command should end.

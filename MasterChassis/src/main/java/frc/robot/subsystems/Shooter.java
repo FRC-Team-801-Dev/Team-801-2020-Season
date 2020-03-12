@@ -52,12 +52,10 @@ public class Shooter extends SubsystemBase
     breachMotor.setInverted(Constants.BREACH_INVERTED);
   }
 
-
   //TODO: find correct speed
   public void enableShooter()
   {
     shooterPID.setReference(Constants.SHOOTER_RPM, ControlType.kVelocity);
-    //breachPID.setReference(Constants.BREACH_DOWNSPEED, ControlType.kDutyCycle);
     holdDown();
   }
 
